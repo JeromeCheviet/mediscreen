@@ -21,13 +21,13 @@ public class UserController {
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping(value = "/v1/users")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<Iterable<User>> getAllUsers() {
         logger.debug("get /v1/users controller");
-        List<User> users = userService.getUsers();
-        if (users.isEmpty()) {
-            logger.warn("users list is empty");
-            throw new UserNotFoundException("No users found in database");
-        }
+        Iterable<User> users = userService.getUsers();
+//        if (users.iterator().) {
+//            logger.warn("users list is empty");
+//            throw new UserNotFoundException("No users found in database");
+//        }
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }

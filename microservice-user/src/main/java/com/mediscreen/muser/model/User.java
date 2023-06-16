@@ -1,10 +1,10 @@
 package com.mediscreen.muser.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.extern.jackson.Jacksonized;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "user")
@@ -17,7 +17,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long userID;
+    private Integer userID;
 
     @Column(name = "first_name")
     private String firstName;
@@ -26,7 +26,8 @@ public class User {
     private String lastName;
 
     @Column(name = "birth_date")
-    private Date birthDate;
+    @JsonFormat(pattern = "YYYY-MM-dd")
+    private LocalDate birthDate;
 
     @Column(name = "gender")
     private String gender;
