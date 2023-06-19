@@ -17,8 +17,8 @@ public class UserServiceImpl implements UserService {
     public Iterable<User> getUsers() {
         log.debug("Get all users");
         Iterable<User> users = userRepository.findAll();
-        if (users.iterator().next() == null) {
-            throw new UserNotFoundException("No user found in database");
+        if (!users.iterator().hasNext()) {
+            throw new UserNotFoundException("No users found in database");
         }
         return users;
     }
