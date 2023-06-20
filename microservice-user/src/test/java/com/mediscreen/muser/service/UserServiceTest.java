@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -75,7 +76,7 @@ class UserServiceTest {
     @Ignore
     @Test
     void testGetUsers_raiseException_whenNoUsers() {
-        when(userRepository.findAll()).thenReturn(null);
+        when(userRepository.findAll()).thenReturn(Collections.EMPTY_LIST);
 
         Throwable exception = assertThrows(UserNotFoundException.class, () -> {
             userService.getUsers();

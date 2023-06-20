@@ -24,10 +24,6 @@ public class UserController {
     public ResponseEntity<Iterable<User>> getAllUsers() {
         logger.debug("get /v1/users controller");
         Iterable<User> users = userService.getUsers();
-//        if (users.iterator().) {
-//            logger.warn("users list is empty");
-//            throw new UserNotFoundException("No users found in database");
-//        }
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
