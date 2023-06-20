@@ -3,9 +3,8 @@ package com.mediscreen.muser.service;
 import com.mediscreen.muser.exception.UserNotFoundException;
 import com.mediscreen.muser.model.User;
 import com.mediscreen.muser.repository.UserRepository;
-import org.junit.Ignore;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -15,6 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -72,8 +72,6 @@ class UserServiceTest {
 
     }
 
-    //TODO NullPointerException instead of UserNotFoundException.
-    @Ignore
     @Test
     void testGetUsers_raiseException_whenNoUsers() {
         when(userRepository.findAll()).thenReturn(Collections.EMPTY_LIST);
@@ -86,4 +84,12 @@ class UserServiceTest {
         verify(userRepository, times(1)).findAll();
     }
 
+    @Test
+    void testGetUserById(){
+        when(userRepository.findById(1)).thenReturn(Optional.ofNullable(expectedUser));
+
+        Optional<User> actualUser = userService.getUserById(1);
+
+        assertEquals(expectedUser.getFirstName(), actualUser.get().getFirstName());
+    }
 }
