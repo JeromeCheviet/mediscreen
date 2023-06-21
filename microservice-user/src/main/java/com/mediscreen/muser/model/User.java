@@ -2,6 +2,8 @@ package com.mediscreen.muser.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -19,14 +21,17 @@ public class User {
     @Column(name = "user_id")
     private Integer userID;
 
+    @NotBlank(message = "Firstname is mandatory")
     @Column(name = "first_name")
     private String firstName;
 
+    @NotBlank(message = "Lastname is mandatory")
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "birth_date")
     @JsonFormat(pattern = "YYYY-MM-dd")
+    @PastOrPresent
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
     @Column(name = "gender")

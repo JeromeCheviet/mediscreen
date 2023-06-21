@@ -8,4 +8,6 @@ public interface UserService {
     Iterable<User> getUsers();
 
     Optional<User> getUserById(int userId);
+
+    void addUser(User user);
 }

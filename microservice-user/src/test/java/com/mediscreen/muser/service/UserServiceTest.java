@@ -100,4 +100,14 @@ class UserServiceTest {
         assertEquals("User with id 1 not found", exception.getMessage());
         verify(userRepository, times(1)).findById(1);
     }
+
+    @Test
+    void testAddUser() {
+        when(userRepository.save(any(User.class))).thenReturn(expectedUser);
+
+        userService.addUser(expectedUser);
+
+        verify(userRepository, times(1)).save(expectedUser);
+    }
+
 }

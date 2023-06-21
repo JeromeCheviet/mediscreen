@@ -1,5 +1,6 @@
 package com.mediscreen.muser.service;
 
+import com.mediscreen.muser.exception.UserNotCreatedException;
 import com.mediscreen.muser.exception.UserNotFoundException;
 import com.mediscreen.muser.model.User;
 import com.mediscreen.muser.repository.UserRepository;
@@ -38,5 +39,15 @@ public class UserServiceImpl implements UserService {
         }
 
         return user;
+    }
+
+    @Override
+    public void addUser(User user) {
+        logger.debug("Create user with firstname {}", user.getFirstName());
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new UserNotCreatedException("User with firstname not created. Reason : " + e);
+        }
     }
 }
