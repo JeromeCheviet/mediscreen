@@ -76,9 +76,7 @@ class UserServiceTest {
     void testGetUsers_raiseException_whenNoUsers() {
         when(userRepository.findAll()).thenReturn(Collections.EMPTY_LIST);
 
-        Throwable exception = assertThrows(UserNotFoundException.class, () -> {
-            userService.getUsers();
-        });
+        Throwable exception = assertThrows(UserNotFoundException.class, () -> userService.getUsers());
 
         assertEquals("No users found in database", exception.getMessage());
         verify(userRepository, times(1)).findAll();
@@ -91,5 +89,15 @@ class UserServiceTest {
         Optional<User> actualUser = userService.getUserById(1);
 
         assertEquals(expectedUser.getFirstName(), actualUser.get().getFirstName());
+    }
+
+    @Test
+    void testGetUserById_raiseException_whenNoUsersFound() {
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
+
+        Throwable exception = assertThrows(UserNotFoundException.class, () -> userService.getUserById(1));
+
+        assertEquals("User with id 1 not found", exception.getMessage());
+        verify(userRepository, times(1)).findById(1);
     }
 }
