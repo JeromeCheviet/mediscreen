@@ -3,14 +3,13 @@ package com.mediscreen.muser.controller;
 import com.mediscreen.muser.exception.UserNotFoundException;
 import com.mediscreen.muser.model.User;
 import com.mediscreen.muser.service.UserService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,5 +35,12 @@ public class UserController {
         Optional<User> user = userService.getUserById(id);
 
         return new ResponseEntity<>(user.get(), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/v1/user/add")
+    public ResponseEntity<User> addUser(@RequestBody @Valid User newUser) {
+        logger.debug("Post /v1/user/add");
+        userService.addUser(newUser);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 }

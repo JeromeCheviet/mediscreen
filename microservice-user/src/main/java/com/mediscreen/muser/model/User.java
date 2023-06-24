@@ -29,8 +29,8 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @JsonFormat(pattern = "YYYY-MM-dd")
-    @PastOrPresent
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @PastOrPresent(message = "Incorrect date")
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
