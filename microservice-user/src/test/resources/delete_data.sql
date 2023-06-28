@@ -1,1 +1,0 @@
-TRUNCATE TABLE mediscreen_user_test.user;

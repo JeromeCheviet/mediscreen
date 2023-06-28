@@ -6,13 +6,13 @@ services:
     container_name: user_db
     environment:
       MYSQL_ROOT_PASSWORD: rootroot
-      MYSQL_DATABASE: mediscreen_user
+      MYSQL_DATABASE: mediscreen_patient
       MYSQL_USER: mediscreen
       MYSQL_PASSWORD: M3d1Scr33n
     ports:
       - 3306:3306
     volumes:
-      - dbuser_mediscreen:/var/lib/mysql
+      - dbpatient_mediscreen:/var/lib/mysql
 
 volumes:
-  dbuser_mediscreen:
+  dbpatient_mediscreen:
