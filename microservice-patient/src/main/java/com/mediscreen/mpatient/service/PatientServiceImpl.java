@@ -1,6 +1,7 @@
 package com.mediscreen.mpatient.service;
 
 import com.mediscreen.mpatient.exception.PatientNotCreatedException;
+import com.mediscreen.mpatient.exception.PatientNotDeletedExcecption;
 import com.mediscreen.mpatient.exception.PatientNotFoundException;
 import com.mediscreen.mpatient.model.Patient;
 import com.mediscreen.mpatient.repository.PatientRepository;
@@ -48,5 +49,19 @@ public class PatientServiceImpl implements PatientService {
         } catch (Exception e) {
             throw new PatientNotCreatedException("Patient not created. Reason : " + e);
         }
+    }
+
+    @Override
+    public void deletePatient(Patient patient) {
+        logger.debug("Delete patient with id {}", patient.getPatientId());
+
+        patientRepository.delete(patient);
+
+        Optional<Patient> deletingPatient = patientRepository.findById(patient.getPatientId());
+
+        if (deletingPatient.isPresent()) {
+            throw new PatientNotDeletedExcecption("Patient with id " + patient.getPatientId() + " is not deleted");
+        }
+
     }
 }

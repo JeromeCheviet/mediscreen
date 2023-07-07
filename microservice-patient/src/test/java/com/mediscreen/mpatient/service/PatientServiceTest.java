@@ -1,6 +1,7 @@
 package com.mediscreen.mpatient.service;
 
 import com.mediscreen.mpatient.exception.PatientNotCreatedException;
+import com.mediscreen.mpatient.exception.PatientNotDeletedExcecption;
 import com.mediscreen.mpatient.exception.PatientNotFoundException;
 import com.mediscreen.mpatient.model.Patient;
 import com.mediscreen.mpatient.repository.PatientRepository;
@@ -83,7 +84,7 @@ class PatientServiceTest {
 
     @Test
     void testGetPatientById() {
-        when(patientRepository.findById(1)).thenReturn(Optional.ofNullable(expectedPatient));
+        when(patientRepository.findById(1)).thenReturn(Optional.of(expectedPatient));
 
         Patient actualPatient = patientService.getPatientById(1);
 
@@ -117,5 +118,28 @@ class PatientServiceTest {
 
         assertEquals("Patient not created. Reason : java.lang.RuntimeException", exception.getMessage());
         verify(patientRepository, times(1)).save(expectedPatient);
+    }
+
+    @Test
+    void testDeletePatient() {
+        doNothing().when(patientRepository).delete(expectedPatient);
+        when(patientRepository.findById(expectedPatient.getPatientId())).thenReturn(Optional.empty());
+
+        patientService.deletePatient(expectedPatient);
+
+        verify(patientRepository, times(1)).delete(expectedPatient);
+        verify(patientRepository, times(1)).findById(expectedPatient.getPatientId());
+    }
+
+    @Test
+    void testDeletePatient_throwException_whenPatientNotFound() {
+        doNothing().when(patientRepository).delete(expectedPatient);
+        when(patientRepository.findById(expectedPatient.getPatientId())).thenReturn(Optional.of(expectedPatient));
+
+        Throwable exception = assertThrows(PatientNotDeletedExcecption.class, () -> patientService.deletePatient(expectedPatient));
+
+        assertEquals("Patient with id 0 is not deleted", exception.getMessage());
+        verify(patientRepository, times(1)).delete(expectedPatient);
+        verify(patientRepository, times(1)).findById(expectedPatient.getPatientId());
     }
 }
