@@ -39,4 +39,12 @@ public class PatientController {
         return new ResponseEntity<>(newPatient, HttpStatus.CREATED);
     }
 
+    @DeleteMapping(value = "/patient/{id}")
+    public ResponseEntity<String> deletePatient(@PathVariable("id") Integer id) {
+        logger.debug("Delete /patient/{}", id);
+        patientService.deletePatient(patientService.getPatientById(id));
+
+        return new ResponseEntity<>("Patient " + id + " deleted", HttpStatus.NO_CONTENT);
+    }
+
 }

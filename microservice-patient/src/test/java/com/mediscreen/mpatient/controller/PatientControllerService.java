@@ -10,14 +10,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -105,9 +106,9 @@ class PatientControllerService {
                 "}";
 
         mvc.perform(post("/patient/add")
-                .content(expectedContent)
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("utf8"))
+                        .content(expectedContent)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf8"))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType("application/json"))
@@ -126,9 +127,9 @@ class PatientControllerService {
                 "}";
 
         mvc.perform(post("/patient/add")
-                .content(expectedContent)
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("utf8"))
+                        .content(expectedContent)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf8"))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(status().reason("Invalid request content."));
@@ -191,5 +192,17 @@ class PatientControllerService {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(status().reason("Invalid request content."));
+    }
+
+    @Sql(scripts = "/insert_data.sql")
+    @Sql(scripts = "/delete_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Test
+    void testDeletePatient_mustReturnNoContent() throws Exception {
+        MvcResult mvcResult = mvc.perform(delete("/patient/1"))
+                .andDo(print())
+                .andExpect(status().isNoContent())
+                .andReturn();
+
+        assertTrue(mvcResult.getResponse().getContentAsString().contentEquals("Patient 1 deleted"));
     }
 }
