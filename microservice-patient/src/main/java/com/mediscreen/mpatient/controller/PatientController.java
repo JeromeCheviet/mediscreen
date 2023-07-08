@@ -39,6 +39,15 @@ public class PatientController {
         return new ResponseEntity<>(newPatient, HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/patient/{id}")
+    public ResponseEntity<Patient> updatePatient(@PathVariable("id") Integer id, @RequestBody @Valid Patient updatedPatient) {
+        logger.debug("Put /patient/{}", id);
+        patientService.getPatientById(id);
+        updatedPatient.setPatientId(id);
+
+        return new ResponseEntity<>(patientService.updatePatient(updatedPatient), HttpStatus.OK);
+    }
+
     @DeleteMapping(value = "/patient/{id}")
     public ResponseEntity<String> deletePatient(@PathVariable("id") Integer id) {
         logger.debug("Delete /patient/{}", id);

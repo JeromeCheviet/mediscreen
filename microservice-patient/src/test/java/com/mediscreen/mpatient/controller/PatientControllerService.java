@@ -14,11 +14,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -194,6 +194,52 @@ class PatientControllerService {
                 .andExpect(status().reason("Invalid request content."));
     }
 
+
+    @Sql(scripts = "/insert_data.sql")
+    @Sql(scripts = "/delete_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Test
+    void testUpdatePatient_mustReturnOk() throws Exception {
+        String expectedContent = "{" +
+                "\"family\":\"John\"" +
+                ",\"given\":\"Doe\"" +
+                ",\"dob\":\"1980-09-25\"" +
+                ",\"sex\":\"M\"" +
+                ",\"address\":\"30 rue du Puit\"" +
+                ",\"phone\":\"000-555-7777\"" +
+                "}";
+
+        mvc.perform(put("/patient/1")
+                        .content(expectedContent)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf8"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(content().string("{\"patientId\":1,\"family\":\"John\",\"given\":\"Doe\",\"dob\":\"1980-09-25\",\"sex\":\"M\",\"address\":\"30 rue du Puit\",\"phone\":\"000-555-7777\"}"));
+    }
+
+    @Sql(scripts = "/insert_data.sql")
+    @Sql(scripts = "/delete_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Test
+    void testUpdatePatient_mustReturnNotFound_whenPatientNotExist() throws Exception {
+        String expectedContent = "{" +
+                "\"family\":\"John\"" +
+                ",\"given\":\"Doe\"" +
+                ",\"dob\":\"1980-09-25\"" +
+                ",\"sex\":\"M\"" +
+                ",\"address\":\"30 rue du Puit\"" +
+                ",\"phone\":\"000-555-7777\"" +
+                "}";
+
+        mvc.perform(put("/patient/100")
+                        .content(expectedContent)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf8"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(status().reason("Patient not found"));
+    }
+
     @Sql(scripts = "/insert_data.sql")
     @Sql(scripts = "/delete_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @Test
@@ -204,5 +250,15 @@ class PatientControllerService {
                 .andReturn();
 
         assertTrue(mvcResult.getResponse().getContentAsString().contentEquals("Patient 1 deleted"));
+    }
+
+    @Sql(scripts = "/insert_data.sql")
+    @Sql(scripts = "/delete_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Test
+    void testDeletePatient_mustReturnNotFound_whenUserNotExist() throws Exception {
+        mvc.perform(delete("/patient/100"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(status().reason("Patient not found"));
     }
 }

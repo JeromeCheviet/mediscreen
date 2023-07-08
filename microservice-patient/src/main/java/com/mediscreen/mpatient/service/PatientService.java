@@ -10,4 +10,6 @@ public interface PatientService {
     void addPatient(Patient patient);
 
     void deletePatient(Patient patient);
+
+    Patient updatePatient(Patient patient);
 }

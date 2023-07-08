@@ -3,6 +3,7 @@ package com.mediscreen.mpatient.service;
 import com.mediscreen.mpatient.exception.PatientNotCreatedException;
 import com.mediscreen.mpatient.exception.PatientNotDeletedExcecption;
 import com.mediscreen.mpatient.exception.PatientNotFoundException;
+import com.mediscreen.mpatient.exception.PatientNotUpdatedException;
 import com.mediscreen.mpatient.model.Patient;
 import com.mediscreen.mpatient.repository.PatientRepository;
 import org.slf4j.Logger;
@@ -60,8 +61,23 @@ public class PatientServiceImpl implements PatientService {
         Optional<Patient> deletingPatient = patientRepository.findById(patient.getPatientId());
 
         if (deletingPatient.isPresent()) {
-            throw new PatientNotDeletedExcecption("Patient with id " + patient.getPatientId() + " is not deleted");
+            throw new PatientNotDeletedExcecption("Patient with id " + patient.getPatientId() + " not deleted");
         }
 
+    }
+
+    @Override
+    public Patient updatePatient(Patient patient) {
+        logger.debug("Update patient with id {}", patient.getPatientId());
+        patientRepository.save(patient);
+
+        Patient updatedPatient = getPatientById(patient.getPatientId());
+
+
+        if (!patient.toString().equals(updatedPatient.toString())) {
+            throw new PatientNotUpdatedException("Patient with id " + patient.getPatientId() + " not updated");
+        }
+
+        return updatedPatient;
     }
 }

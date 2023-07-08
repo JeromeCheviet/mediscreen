@@ -3,6 +3,7 @@ package com.mediscreen.mpatient.service;
 import com.mediscreen.mpatient.exception.PatientNotCreatedException;
 import com.mediscreen.mpatient.exception.PatientNotDeletedExcecption;
 import com.mediscreen.mpatient.exception.PatientNotFoundException;
+import com.mediscreen.mpatient.exception.PatientNotUpdatedException;
 import com.mediscreen.mpatient.model.Patient;
 import com.mediscreen.mpatient.repository.PatientRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,8 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Collections.EMPTY_LIST;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,27 +28,47 @@ class PatientServiceTest {
     private PatientService patientService = new PatientServiceImpl();
     @Mock
     private PatientRepository patientRepository;
-    @Mock
-    private Patient expectedPatient;
 
-    @BeforeEach
-    private void setUp() {
-        int expectedPatientId = 1;
-        String expectedFamily = "John";
-        String expectedGiven = "Doe";
-        LocalDate expectedDob = LocalDate.parse("1990-12-25");
-        String expectedSex = "M";
-        String expectedAddress = "1 rue du Puit";
-        String expectedPhone = "000-111-3333";
+    private int expectedPatientId = 1;
+    private String expectedFamily = "John";
+    private String expectedGiven = "Doe";
+    private LocalDate expectedDob = LocalDate.parse("1990-12-25");
+    private String expectedSex = "M";
+    private String expectedAddress = "1 rue du Puit";
+    private String expectedPhone = "000-111-3333";
 
-        expectedPatient.setPatientId(expectedPatientId);
-        expectedPatient.setFamily(expectedFamily);
-        expectedPatient.setGiven(expectedGiven);
-        expectedPatient.setDob(expectedDob);
-        expectedPatient.setSex(expectedSex);
-        expectedPatient.setAddress(expectedAddress);
-        expectedPatient.setPhone(expectedPhone);
-    }
+    private Patient expectedPatient = new Patient(
+            expectedPatientId,
+            expectedFamily,
+            expectedGiven,
+            expectedDob,
+            expectedSex,
+            expectedAddress,
+            expectedPhone
+    );
+
+//    @BeforeEach
+//    private void setUp() {
+//        int expectedPatientId = 1;
+//        String expectedFamily = "John";
+//        String expectedGiven = "Doe";
+//        LocalDate expectedDob = LocalDate.parse("1990-12-25");
+//        String expectedSex = "M";
+//        String expectedAddress = "1 rue du Puit";
+//        String expectedPhone = "000-111-3333";
+//
+//        Patient expectedPatient = new Patient();
+//
+//        expectedPatient.setPatientId(expectedPatientId);
+//        expectedPatient.setFamily(expectedFamily);
+//        expectedPatient.setGiven(expectedGiven);
+//        expectedPatient.setDob(expectedDob);
+//        expectedPatient.setSex(expectedSex);
+//        expectedPatient.setAddress(expectedAddress);
+//        expectedPatient.setPhone(expectedPhone);
+//
+//        System.out.println(expectedPatient.toString().toString());
+//    }
 
     @Test
     void testGetPatients() {
@@ -138,8 +158,45 @@ class PatientServiceTest {
 
         Throwable exception = assertThrows(PatientNotDeletedExcecption.class, () -> patientService.deletePatient(expectedPatient));
 
-        assertEquals("Patient with id 0 is not deleted", exception.getMessage());
+        assertEquals("Patient with id 1 not deleted", exception.getMessage());
         verify(patientRepository, times(1)).delete(expectedPatient);
         verify(patientRepository, times(1)).findById(expectedPatient.getPatientId());
+    }
+
+    @Test
+    void testUpdatePatient() {
+        expectedPatient.setPhone("111-222-3333");
+
+        when(patientRepository.save(any(Patient.class))).thenReturn(expectedPatient);
+        when(patientRepository.findById(expectedPatient.getPatientId())).thenReturn(Optional.of(expectedPatient));
+
+        Patient actualPatient = patientService.updatePatient(expectedPatient);
+
+        assertEquals(expectedPatient.getPhone(), actualPatient.getPhone());
+        verify(patientRepository, times(1)).save(any(Patient.class));
+        verify(patientRepository, times(1)).findById(expectedPatient.getPatientId());
+    }
+
+    @Test
+    void testUpdatePatient_throwException_whenUpdateFailed() {
+        Patient updatedPatient = new Patient(
+                expectedPatientId,
+                expectedFamily,
+                expectedGiven,
+                expectedDob,
+                expectedSex,
+                expectedAddress,
+                "111-222-3333"
+        );
+
+        when(patientRepository.save(any(Patient.class))).thenReturn(expectedPatient);
+        when(patientRepository.findById(updatedPatient.getPatientId())).thenReturn(Optional.of(expectedPatient));
+
+        Throwable exception = assertThrows(PatientNotUpdatedException.class, () -> patientService.updatePatient(updatedPatient));
+
+        assertEquals("Patient with id 1 not updated", exception.getMessage());
+        verify(patientRepository, times(1)).save(updatedPatient);
+        verify(patientRepository, times(1)).findById(updatedPatient.getPatientId());
+
     }
 }
