@@ -1,0 +1,83 @@
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dstyle.color=always -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Djansi.force=true"
+  MYSQL_DATABASE: "mediscreen_patient_test"
+  MYSQL_ROOT_PASSWORD: "rootroot"
+  MYSQL_USER: "mediscreen"
+  MYSQL_PASSWORD: "M3d1Scr33n"
+  #MYSQL_HOST: "mysql"
+
+cache:
+  paths:
+    - .m2
+
+stages:
+  - test
+  - build
+  - deploy
+
+.ignore:
+  except:
+    changes:
+      - ".gitignore"
+      - "docker-compose.yml"
+      - "*.md"
+      - "doc/*"
+
+Test-multiservice-patient:
+  stage: test
+  image: maven:3.9.2-amazoncorretto-17-debian-bookworm
+  services:
+    - name: mariadb:11.0.2
+      alias: mysql
+  extends: .ignore
+  before_script:
+    - cd microservice-patient
+    - sed -i 's/127.0.0.1/mysql/' src/test/resources/application.properties
+  script:
+    - mvn ${MVN_OPTS} verify
+    - awk -F"," '{ lines += $8 + $9; covered += $9 } END { print covered, "/", lines, "lines covered"; print 100*covered/lines, "% covered" }' target/site/jacoco/jacoco.csv || echo "0.0 % covered"
+  coverage: '/\d+.*\d+ \% covered/'
+  tags:
+    - docker
+
+Build-JAR-multiservice-patient:
+  stage: build
+  image: maven:3.9.2-amazoncorretto-17-debian-bookworm
+  extends: .ignore
+  dependencies :
+    - Test-multiservice-patient
+  script:
+    - cd microservice-patient
+    - mvn ${MVN_OPTS} -Drevision=x.y.z-SUFFIX -DskipTests -B clean install
+  artifacts:
+    paths:
+      - multiservice-patient/target/*.jar
+    expire_in: 7 days
+  tags:
+    - docker
+
+Prepare-server:
+  stage: deploy
+  when: manual
+  extends: .ignore
+  script:
+    - echo "Préparer le serveur cible (BDD, Java)"
+  only:
+    - main
+  tags:
+    - docker
+
+Deploy-app:
+  stage: deploy
+  when: manual
+  extends: .ignore
+  dependencies:
+    - Build-JAR-multiservice-patient
+    - Prepare-server
+  script:
+    - echo "Lancer les playbooks Ansible pour déployer l'application"
+    - echo "Voir si il n'est pas plus pertinent de créer un projet dédié Ansible et transformer ce job en Trigger !"
+  only:
+    - main
+  tags:
+    - docker

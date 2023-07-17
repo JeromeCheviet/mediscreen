@@ -1,10 +1,10 @@
-package com.mediscreen.muser;
+package com.mediscreen.mpatient;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MicroserviceUserApplicationTests {
+class MicroservicePatientApplicationTests {
 
     @Test
     void contextLoads() {
