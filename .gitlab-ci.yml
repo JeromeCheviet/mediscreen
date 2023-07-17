@@ -4,7 +4,6 @@ variables:
   MYSQL_ROOT_PASSWORD: "rootroot"
   MYSQL_USER: "mediscreen"
   MYSQL_PASSWORD: "M3d1Scr33n"
-  #MYSQL_HOST: "mysql"
 
 cache:
   paths:
