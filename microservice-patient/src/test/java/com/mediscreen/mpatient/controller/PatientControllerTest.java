@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class PatientControllerService {
+class PatientControllerTest {
     @Autowired
     private MockMvc mvc;
 
