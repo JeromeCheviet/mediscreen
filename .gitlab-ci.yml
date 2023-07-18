@@ -55,6 +55,20 @@ Build-JAR-multiservice-patient:
   tags:
     - docker
 
+Build-JAR-eureka-server:
+  stage: build
+  image: maven:3.9.2-amazoncorretto-17-debian-bookworm
+  extends: .ignore
+  script:
+    - cd eureka-server
+    - mvn ${MVN_OPTS} -Drevision=x.y.z-SUFFIX -DskipTests -B clean install
+  artifacts:
+    paths:
+      - eureka-server/target/*.jar
+    expire_in: 7 days
+  tags:
+    - docker
+
 Prepare-server:
   stage: deploy
   when: manual

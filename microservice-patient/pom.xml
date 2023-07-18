@@ -10,15 +10,17 @@
     </parent>
     <groupId>com.mediscreen</groupId>
     <artifactId>mpatient</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>microservice-patient</name>
     <description>microservice-patient</description>
     <properties>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-cloud.version>2022.0.3</spring-cloud.version>
     </properties>
+    <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -107,6 +109,7 @@
     </dependencyManagement>
 
     <build>
+        <finalName>${project.name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -120,7 +123,7 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.3.0</version>
@@ -144,7 +147,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
