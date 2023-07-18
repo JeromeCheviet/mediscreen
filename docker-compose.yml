@@ -10,7 +10,7 @@ services:
       MYSQL_USER: mediscreen
       MYSQL_PASSWORD: M3d1Scr33n
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - dbpatient_mediscreen:/var/lib/mysql
 
@@ -20,7 +20,7 @@ services:
       dockerfile: Dockerfile
     container_name: eureka-server
     ports:
-      - 8101:8101
+      - "8101:8101"
 
   mpatient:
     build:
@@ -28,7 +28,7 @@ services:
       dockerfile: Dockerfile
     container_name: mpatient
     ports:
-      - 8081:8081
+      - "8081:8081"
     depends_on:
       - db_patient
       - eureka-server

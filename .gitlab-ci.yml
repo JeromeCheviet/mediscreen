@@ -13,12 +13,21 @@ stages:
   - test
   - build
 
+.ignore:
+  except:
+    changes:
+      - ".gitignore"
+      - "docker-compose.yml"
+      - "*.md"
+      - "doc/*"
+
 Test-multiservice-patient:
   stage: test
   image: maven:3.9.2-amazoncorretto-17-debian-bookworm
   services:
     - name: mariadb:11.0.2
       alias: mysql
+  extends: .ignore
   before_script:
     - cd microservice-patient
     - sed -i 's/127.0.0.1/mysql/' src/test/resources/application.properties
@@ -32,7 +41,8 @@ Test-multiservice-patient:
 Build-JAR-multiservice-patient:
   stage: build
   image: maven:3.9.2-amazoncorretto-17-debian-bookworm
-  dependencies :
+  extends: .ignore
+  needs:
     - Test-multiservice-patient
   script:
     - cd microservice-patient
@@ -47,6 +57,7 @@ Build-JAR-multiservice-patient:
 Build-JAR-eureka-server:
   stage: build
   image: maven:3.9.2-amazoncorretto-17-debian-bookworm
+  extends: .ignore
   script:
     - cd eureka-server
     - mvn ${MVN_OPTS} -Drevision=x.y.z-SUFFIX -DskipTests -B clean install
