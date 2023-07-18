@@ -12,15 +12,6 @@ cache:
 stages:
   - test
   - build
-  - deploy
-
-.ignore:
-  except:
-    changes:
-      - ".gitignore"
-      - "docker-compose.yml"
-      - "*.md"
-      - "doc/*"
 
 Test-multiservice-patient:
   stage: test
@@ -28,7 +19,6 @@ Test-multiservice-patient:
   services:
     - name: mariadb:11.0.2
       alias: mysql
-  extends: .ignore
   before_script:
     - cd microservice-patient
     - sed -i 's/127.0.0.1/mysql/' src/test/resources/application.properties
@@ -42,7 +32,6 @@ Test-multiservice-patient:
 Build-JAR-multiservice-patient:
   stage: build
   image: maven:3.9.2-amazoncorretto-17-debian-bookworm
-  extends: .ignore
   dependencies :
     - Test-multiservice-patient
   script:
@@ -58,7 +47,6 @@ Build-JAR-multiservice-patient:
 Build-JAR-eureka-server:
   stage: build
   image: maven:3.9.2-amazoncorretto-17-debian-bookworm
-  extends: .ignore
   script:
     - cd eureka-server
     - mvn ${MVN_OPTS} -Drevision=x.y.z-SUFFIX -DskipTests -B clean install
@@ -66,31 +54,5 @@ Build-JAR-eureka-server:
     paths:
       - eureka-server/target/*.jar
     expire_in: 7 days
-  tags:
-    - docker
-
-Prepare-server:
-  stage: deploy
-  when: manual
-  extends: .ignore
-  script:
-    - echo "Préparer le serveur cible (BDD, Java)"
-  only:
-    - main
-  tags:
-    - docker
-
-Deploy-app:
-  stage: deploy
-  when: manual
-  extends: .ignore
-  dependencies:
-    - Build-JAR-multiservice-patient
-    - Prepare-server
-  script:
-    - echo "Lancer les playbooks Ansible pour déployer l'application"
-    - echo "Voir si il n'est pas plus pertinent de créer un projet dédié Ansible et transformer ce job en Trigger !"
-  only:
-    - main
   tags:
     - docker
