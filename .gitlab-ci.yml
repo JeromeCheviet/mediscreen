@@ -39,7 +39,7 @@ Build-JAR-multiservice-patient:
     - mvn ${MVN_OPTS} -Drevision=x.y.z-SUFFIX -DskipTests -B clean install
   artifacts:
     paths:
-      - multiservice-patient/target/*.jar
+      - microservice-patient/target/*.jar
     expire_in: 7 days
   tags:
     - docker
