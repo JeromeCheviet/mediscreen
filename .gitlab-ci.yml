@@ -12,7 +12,6 @@ cache:
 stages:
   - test
   - build
-  - deploy
 
 .ignore:
   except:
@@ -43,40 +42,28 @@ Build-JAR-multiservice-patient:
   stage: build
   image: maven:3.9.2-amazoncorretto-17-debian-bookworm
   extends: .ignore
-  dependencies :
+  needs:
     - Test-multiservice-patient
   script:
     - cd microservice-patient
     - mvn ${MVN_OPTS} -Drevision=x.y.z-SUFFIX -DskipTests -B clean install
   artifacts:
     paths:
-      - multiservice-patient/target/*.jar
+      - microservice-patient/target/*.jar
     expire_in: 7 days
   tags:
     - docker
 
-Prepare-server:
-  stage: deploy
-  when: manual
+Build-JAR-eureka-server:
+  stage: build
+  image: maven:3.9.2-amazoncorretto-17-debian-bookworm
   extends: .ignore
   script:
-    - echo "Préparer le serveur cible (BDD, Java)"
-  only:
-    - main
-  tags:
-    - docker
-
-Deploy-app:
-  stage: deploy
-  when: manual
-  extends: .ignore
-  dependencies:
-    - Build-JAR-multiservice-patient
-    - Prepare-server
-  script:
-    - echo "Lancer les playbooks Ansible pour déployer l'application"
-    - echo "Voir si il n'est pas plus pertinent de créer un projet dédié Ansible et transformer ce job en Trigger !"
-  only:
-    - main
+    - cd eureka-server
+    - mvn ${MVN_OPTS} -Drevision=x.y.z-SUFFIX -DskipTests -B clean install
+  artifacts:
+    paths:
+      - eureka-server/target/*.jar
+    expire_in: 7 days
   tags:
     - docker

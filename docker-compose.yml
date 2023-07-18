@@ -1,18 +1,37 @@
 version: '3.8'
 
 services:
-  db_user:
+  db_patient:
     image: mariadb:11.0.2
-    container_name: user_db
+    container_name: db_patient
     environment:
       MYSQL_ROOT_PASSWORD: rootroot
       MYSQL_DATABASE: mediscreen_patient
       MYSQL_USER: mediscreen
       MYSQL_PASSWORD: M3d1Scr33n
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - dbpatient_mediscreen:/var/lib/mysql
+
+  eureka-server:
+    build:
+      context: eureka-server/.
+      dockerfile: Dockerfile
+    container_name: eureka-server
+    ports:
+      - "8101:8101"
+
+  mpatient:
+    build:
+      context: microservice-patient/.
+      dockerfile: Dockerfile
+    container_name: mpatient
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db_patient
+      - eureka-server
 
 volumes:
   dbpatient_mediscreen:
