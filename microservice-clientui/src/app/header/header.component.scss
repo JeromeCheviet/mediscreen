@@ -8,7 +8,7 @@ nav {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-bottom: solid 3px #00849a;
+  border-bottom: solid 3px rgba(0, 132, 154, 1);
   img {
     width: 250px;
     height: auto;
@@ -16,14 +16,19 @@ nav {
   }
   a {
     margin-left: 30px;
-    color: #00849a;
+    color: rgba(0, 132, 154, 1);
     font-size: 1.3em;
     font-weight: bold;
     padding: 10px;
 
     &:hover {
-      background-color: #00849a;
+      background-color: rgba(0, 132, 154, 1);
       color: white;
     }
+  }
+
+  .active {
+    color: rgba(0, 132, 154, 0.6);
+    text-decoration: none;
   }
 }
