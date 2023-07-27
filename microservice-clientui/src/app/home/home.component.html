@@ -25,7 +25,7 @@
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="patientsColumn"></tr>
-  <tr mat-row *matRowDef="let patientrow; columns: patientsColumn;"></tr>
+  <tr mat-row *matRowDef="let patientrow; columns: patientsColumn;" (click)="onViewPatient(patientrow)"></tr>
 
 </table>
 

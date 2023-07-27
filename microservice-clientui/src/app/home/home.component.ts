@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {PatientService} from "../services/patient.service";
 import {Patient} from "../models/patient.model";
 
@@ -15,6 +15,11 @@ export class HomeComponent implements OnInit{
 
   ngOnInit() {
     this.patients = this.patientService.getAllPatients();
+    //TODO: Pagination: https://www.angularjswiki.com/material/mat-table-pagination/
+  }
+
+  onViewPatient(patientRow: Patient) {
+    console.log(patientRow.patientId)
   }
 
 }
