@@ -1,1 +1,31 @@
-<p>home works!</p>
+<table mat-table [dataSource]="patients">
+  <ng-container matColumnDef="family">
+    <th mat-header-cell *matHeaderCellDef>Family</th>
+    <td mat-cell *matCellDef="let patient">{{ patient.family }}</td>
+  </ng-container>
+  <ng-container matColumnDef="given">
+    <th mat-header-cell *matHeaderCellDef>Given</th>
+    <td mat-cell *matCellDef="let patient">{{ patient.given }}</td>
+  </ng-container>
+  <ng-container matColumnDef="dob">
+    <th mat-header-cell *matHeaderCellDef>Date of Birth</th>
+    <td mat-cell *matCellDef="let patient">{{ patient.dob }}</td>
+  </ng-container>
+  <ng-container matColumnDef="sex">
+    <th mat-header-cell *matHeaderCellDef>Sex</th>
+    <td mat-cell *matCellDef="let patient">{{ patient.sex }}</td>
+  </ng-container>
+  <ng-container matColumnDef="address">
+    <th mat-header-cell *matHeaderCellDef>Address</th>
+    <td mat-cell *matCellDef="let patient">{{ patient.address }}</td>
+  </ng-container>
+  <ng-container matColumnDef="phone">
+    <th mat-header-cell *matHeaderCellDef>Phone</th>
+    <td mat-cell *matCellDef="let patient">{{ patient.phone }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="patientsColumn"></tr>
+  <tr mat-row *matRowDef="let patientrow; columns: patientsColumn;"></tr>
+
+</table>
+
