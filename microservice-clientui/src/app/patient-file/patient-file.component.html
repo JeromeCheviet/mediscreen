@@ -1,0 +1,19 @@
+<div class="patient-card">
+  <h2> {{ patient.family | uppercase }} {{ patient.given | uppercase }}</h2>
+
+  <img ngSrc="assets/images/male.png" height="512" width="512" alt="Sex">
+
+  <div>
+    <ul>
+      <li *ngIf="patient.sex === 'M'"><b>Sex:</b> Man</li>
+      <li *ngIf="patient.sex === 'F'"><b>Sex:</b> Woman</li>
+      <li><b>Date of Birth:</b> {{ patient.dob }}</li>
+      <li><b>Address:</b> {{ patient.address }}</li>
+      <li><b>Phone Number:</b> {{ patient.phone }}</li>
+    </ul>
+  </div>
+
+  <div>
+    <a routerLink="">Back</a>
+  </div>
+</div>
