@@ -5,3 +5,35 @@
   padding: 10px 30px;
   box-shadow: lightgrey 4px 4px 20px;
 }
+
+.patient-card-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  p {
+    font-size: 1.2em;
+    font-weight: bolder;
+    vertical-align: text-bottom;
+    padding-bottom: 0;
+    img {
+      vertical-align: middle;
+      padding-left: 5px;
+    }
+  }
+  div {
+    font-style: italic;
+  }
+}
+
+.patient-card-icon {
+  width: 20px;
+  height: 20px;
+  margin-top: 0;
+  padding-top: 0;
+  margin-left: 5px;
+}
+
+.patient-card-body {
+  margin: 50px 10px;
+}

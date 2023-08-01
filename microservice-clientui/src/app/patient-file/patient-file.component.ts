@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Patient} from "../models/patient.model";
 import {PatientService} from "../services/patient.service";
 import {ActivatedRoute} from "@angular/router";
@@ -10,7 +10,10 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class PatientFileComponent implements OnInit {
   patient!: Patient;
-  imgMale:any = "assets/images/male-icon.png"
+  sexIcon!: string;
+  editIcon: string = "/assets/images/write.png";
+  closeIcon: string = "/assets/images/close.png";
+
 
   constructor(private patientService: PatientService,
               private route: ActivatedRoute) {
@@ -19,6 +22,11 @@ export class PatientFileComponent implements OnInit {
   ngOnInit() {
     const patientId = +this.route.snapshot.params['id'];
     this.patient = this.patientService.getPatientById(patientId);
+    if (this.patient.sex === "M") {
+      this.sexIcon = "/assets/images/male.png";
+    } else {
+      this.sexIcon = "/assets/images/female.png";
+    }
   }
 
 }

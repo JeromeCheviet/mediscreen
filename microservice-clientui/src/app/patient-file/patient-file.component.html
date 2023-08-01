@@ -1,19 +1,23 @@
 <div class="patient-card">
-  <h2> {{ patient.family | uppercase }} {{ patient.given | uppercase }}</h2>
-
-  <img ngSrc="assets/images/male.png" height="512" width="512" alt="Sex">
-
-  <div>
-    <ul>
-      <li *ngIf="patient.sex === 'M'"><b>Sex:</b> Man</li>
-      <li *ngIf="patient.sex === 'F'"><b>Sex:</b> Woman</li>
-      <li><b>Date of Birth:</b> {{ patient.dob }}</li>
-      <li><b>Address:</b> {{ patient.address }}</li>
-      <li><b>Phone Number:</b> {{ patient.phone }}</li>
-    </ul>
+  <div class="patient-card-top">
+    <p>
+      {{ patient.family | uppercase }} {{ patient.given | uppercase }}
+      <img class="icon" [src]="sexIcon" alt="Gender Icon">
+    </p>
+    <div>
+      {{ patient.dob }}
+    </div>
+    <div>
+      <img class="patient-card-icon" [src]="editIcon" alt="Edit Patient">
+      <a routerLink=""><img class="patient-card-icon" [src]="closeIcon" alt="Close File"></a>
+    </div>
   </div>
-
-  <div>
-    <a routerLink="">Back</a>
+  <div class="patient-card-body">
+    <p>
+      <b>Address:</b> {{ patient.address }}
+    </p>
+    <p>
+      <b>Phone Number:</b> {{ patient.phone }}
+    </p>
   </div>
 </div>
