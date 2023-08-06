@@ -9,13 +9,16 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTableModule} from "@angular/material/table";
 import { PatientFileComponent } from './patient-file/patient-file.component';
 import {NgOptimizedImage} from "@angular/common";
+import {ReactiveFormsModule} from "@angular/forms";
+import { AddPatientComponent } from './add-patient/add-patient.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    PatientFileComponent
+    PatientFileComponent,
+    AddPatientComponent
   ],
     imports: [
         BrowserModule,
@@ -23,6 +26,7 @@ import {NgOptimizedImage} from "@angular/common";
         MatTableModule,
         BrowserAnimationsModule,
         NgOptimizedImage,
+        ReactiveFormsModule
     ],
   providers: [],
   bootstrap: [AppComponent]

@@ -56,4 +56,12 @@ export class PatientService {
       return patient;
     }
   }
+
+  addPatient(formValue: {family: string, given: string, dob: string, sex: string, address?: string, phone?: string}) {
+    const patient: Patient = {
+      ...formValue,
+      patientId: this.patients[this.patients.length - 1].patientId + 1
+    };
+    this.patients.push(patient);
+  }
 }
