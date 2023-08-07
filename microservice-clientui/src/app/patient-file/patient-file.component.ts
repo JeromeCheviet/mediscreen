@@ -31,7 +31,7 @@ export class PatientFileComponent implements OnInit {
   }
 
   onUpdatePatient(): void {
-    this.router.navigateByUrl(`updatePatient/${this.patient.patientId}`)
+    this.router.navigateByUrl(`updatePatient/${this.patient.patientId}`);
   }
 
 }

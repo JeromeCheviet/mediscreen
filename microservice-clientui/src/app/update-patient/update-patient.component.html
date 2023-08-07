@@ -1,1 +1,36 @@
-<p>update-patient works!</p>
+<div class="form-card">
+  <div>
+    <img class="patient-card-icon" [src]="closeIcon" alt="Close File" (click)="onCloseIcon()">
+  </div>
+  <h2>New Patient</h2>
+  <form [formGroup]="updatePatientForm">
+    <div class="form-group">
+      <label for="family">Family</label>
+      <input id="family" type="text" formControlName="family">
+    </div>
+    <div class="form-group">
+      <label for="given">Given</label>
+      <input id="given" type="text" formControlName="given">
+    </div>
+    <div class="form-group">
+      <label for="dob">Date of Birth</label>
+      <input id="dob" type="text" formControlName="dob">
+    </div>
+    <div class="form-group">
+      <label for="sex">Sex</label>
+      <input id="sex" type="text" formControlName="sex">
+    </div>
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input id="address" type="text" formControlName="address">
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input id="phone" type="text" formControlName="phone">
+    </div>
+    <div class="action-buttons">
+      <button type="submit" (click)="onSubmitForm()" [disabled]="updatePatientForm.invalid">Create</button>
+    </div>
+  </form>
+</div>
+
