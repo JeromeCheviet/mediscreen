@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Patient} from "../models/patient.model";
 import {PatientService} from "../services/patient.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-patient-file',
@@ -16,7 +16,8 @@ export class PatientFileComponent implements OnInit {
 
 
   constructor(private patientService: PatientService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -27,6 +28,10 @@ export class PatientFileComponent implements OnInit {
     } else {
       this.sexIcon = "/assets/images/female.png";
     }
+  }
+
+  onUpdatePatient(): void {
+    this.router.navigateByUrl(`updatePatient/${this.patient.patientId}`)
   }
 
 }

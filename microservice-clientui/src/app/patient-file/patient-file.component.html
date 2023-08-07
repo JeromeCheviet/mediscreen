@@ -8,7 +8,7 @@
       {{ patient.dob }}
     </div>
     <div>
-      <img class="patient-card-icon" [src]="editIcon" alt="Edit Patient">
+      <a (click)="onUpdatePatient()"><img class="patient-card-icon" [src]="editIcon" alt="Edit Patient"></a>
       <a routerLink=""><img class="patient-card-icon" [src]="closeIcon" alt="Close File"></a>
     </div>
   </div>

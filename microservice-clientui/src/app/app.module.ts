@@ -11,6 +11,7 @@ import { PatientFileComponent } from './patient-file/patient-file.component';
 import {NgOptimizedImage} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
 import { AddPatientComponent } from './add-patient/add-patient.component';
+import { UpdatePatientComponent } from './update-patient/update-patient.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AddPatientComponent } from './add-patient/add-patient.component';
     HeaderComponent,
     HomeComponent,
     PatientFileComponent,
-    AddPatientComponent
+    AddPatientComponent,
+    UpdatePatientComponent
   ],
     imports: [
         BrowserModule,
