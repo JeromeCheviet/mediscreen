@@ -35,10 +35,12 @@ export class UpdatePatientComponent {
   }
 
   onCloseIcon(): void {
-    this.router.navigateByUrl(`patient/${this.patient.patientId}`)
+    this.router.navigateByUrl(`patient/${this.patient.patientId}`);
   }
 
   onSubmitForm() {
-    console.log(this.updatePatientForm.value)
+    console.log(this.updatePatientForm.value);
+    this.patientService.updatePatient(this.updatePatientForm.value);
+    this.onCloseIcon();
   }
 }

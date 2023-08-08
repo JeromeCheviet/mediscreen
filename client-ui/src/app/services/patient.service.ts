@@ -64,4 +64,12 @@ export class PatientService {
     };
     this.patients.push(patient);
   }
+
+  updatePatient(formValue: {patientId: number, family: string, given: string, dob: string, sex: string, address?: string, phone?: string}) {
+    const updatedPatient: Patient = {
+      ...formValue
+    };
+    const indexPatient = this.patients.findIndex(patient => patient.patientId === updatedPatient.patientId);
+    this.patients[indexPatient] = updatedPatient;
+  }
 }
