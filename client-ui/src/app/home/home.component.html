@@ -1,5 +1,5 @@
 <div class="home-page">
-  <table mat-table [dataSource]="patients" class="mat-elevation-z8 home-table">
+  <table mat-table [dataSource]="patients$" class="mat-elevation-z8 home-table">
     <ng-container matColumnDef="family">
       <th mat-header-cell *matHeaderCellDef>Family</th>
       <td mat-cell *matCellDef="let patient">{{ patient.family }}</td>
