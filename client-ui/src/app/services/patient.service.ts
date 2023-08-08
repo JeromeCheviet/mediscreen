@@ -51,17 +51,17 @@ export class PatientService {
   ];
 
   getAllPatients(): Observable<Patient[]> {
-    //return this.patients;
     return this.http.get<Patient[]>('http://localhost:8081/patient')
   }
 
-  getPatientById(Id: number): Patient {
-    const patient = this.patients.find(patient => patient.patientId === Id);
+  getPatientById(patientId: number): Observable<Patient> {
+    return this.http.get<Patient>(`http://localhost:8081/patient/${patientId}`)
+    /*const patient = this.patients.find(patient => patient.patientId === Id);
     if (!patient) {
       throw new Error('Patient not found');
     } else {
       return patient;
-    }
+    }*/
   }
 
   addPatient(formValue: {family: string, given: string, dob: string, sex: string, address?: string, phone?: string}) {

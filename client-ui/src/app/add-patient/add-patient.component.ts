@@ -16,7 +16,7 @@ export class AddPatientComponent {
               private router: Router) {
   }
 
-  ngOnInit() {
+ /* ngOnInit() {
     this.addPatientForm = this.formBuilder.group({
       family: [null, [Validators.required]],
       given: [null, [Validators.required]],
@@ -32,5 +32,5 @@ export class AddPatientComponent {
     this.patientService.addPatient(this.addPatientForm.value)
     this.router.navigateByUrl('');
   }
-
+*/
 }

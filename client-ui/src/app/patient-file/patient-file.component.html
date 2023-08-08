@@ -1,8 +1,8 @@
-<div class="patient-card">
+<div class="patient-card" *ngIf="patient$ | async as patient">
   <div class="patient-card-top">
     <p>
       {{ patient.family | uppercase }} {{ patient.given | uppercase }}
-      <img class="icon" [src]="sexIcon" alt="Gender Icon">
+      <img class="icon" [src]="patient.sex === 'M' ? sexMIcon : sexFIcon" alt="Sex Icon">
     </p>
     <div>
       {{ patient.dob }}

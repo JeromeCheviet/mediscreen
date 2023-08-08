@@ -20,7 +20,7 @@ export class UpdatePatientComponent {
               private route: ActivatedRoute) {
   }
 
-  ngOnInit() {
+ /* ngOnInit() {
     const patientId = +this.route.snapshot.params['id'];
     this.patient = this.patientService.getPatientById(patientId);
     this.updatePatientForm = this.formBuilder.group({
@@ -42,5 +42,5 @@ export class UpdatePatientComponent {
     console.log(this.updatePatientForm.value);
     this.patientService.updatePatient(this.updatePatientForm.value);
     this.onCloseIcon();
-  }
+  }*/
 }
