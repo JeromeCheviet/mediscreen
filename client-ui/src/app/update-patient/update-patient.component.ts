@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PatientService} from "../services/patient.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Patient} from "../models/patient.model";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-update-patient',
@@ -11,7 +12,8 @@ import {Patient} from "../models/patient.model";
 })
 export class UpdatePatientComponent {
   updatePatientForm!: FormGroup;
-  patient!: Patient;
+  patient$!: Observable<Patient>;
+  //patient!: Patient;
   closeIcon: string = "/assets/images/close.png";
 
   constructor(private formBuilder: FormBuilder,
@@ -20,27 +22,39 @@ export class UpdatePatientComponent {
               private route: ActivatedRoute) {
   }
 
- /* ngOnInit() {
+  ngOnInit() {
     const patientId = +this.route.snapshot.params['id'];
-    this.patient = this.patientService.getPatientById(patientId);
+    const patient: Patient = new Patient()
+
+    this.patientService.getPatientById(patientId).subscribe(value => {
+      value.patientId = patient.patientId;
+      value.family = patient.family;
+      value.given = patient.given;
+      value.dob = patient.dob;
+      value.sex = patient.sex;
+      value.address = patient.address;
+      value.phone = patient.phone;
+    });
+    ;
+    console.log(patient.patientId)
     this.updatePatientForm = this.formBuilder.group({
-      patientId: [this.patient.patientId],
-      family: [this.patient.family, [Validators.required]],
-      given: [this.patient.given, [Validators.required]],
-      dob: [this.patient.dob, [Validators.required]],
-      sex: [this.patient.sex, [Validators.required]],
-      address: [this.patient.address],
-      phone: [this.patient.phone]
+      patientId: [patient.patientId],
+      family: [patient.family, [Validators.required]],
+      given: [patient.given, [Validators.required]],
+      dob: [patient.dob, [Validators.required]],
+      sex: [patient.sex, [Validators.required]],
+      address: [patient.address],
+      phone: [patient.phone]
     });
   }
 
   onCloseIcon(): void {
-    this.router.navigateByUrl(`patient/${this.patient.patientId}`);
+    // this.router.navigateByUrl(`patient/${this.patient.patientId}`);
   }
 
   onSubmitForm() {
     console.log(this.updatePatientForm.value);
     this.patientService.updatePatient(this.updatePatientForm.value);
     this.onCloseIcon();
-  }*/
+  }
 }
