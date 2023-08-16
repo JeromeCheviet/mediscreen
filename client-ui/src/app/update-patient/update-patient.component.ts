@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PatientService} from "../services/patient.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Patient} from "../models/patient.model";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 
 @Component({
   selector: 'app-update-patient',
@@ -12,8 +12,7 @@ import {Observable} from "rxjs";
 })
 export class UpdatePatientComponent {
   updatePatientForm!: FormGroup;
-  patient$!: Observable<Patient>;
-  //patient!: Patient;
+  patient!: Patient;
   closeIcon: string = "/assets/images/close.png";
 
   constructor(private formBuilder: FormBuilder,
@@ -22,34 +21,33 @@ export class UpdatePatientComponent {
               private route: ActivatedRoute) {
   }
 
-  ngOnInit() {
-    const patientId = +this.route.snapshot.params['id'];
-    const patient: Patient = new Patient()
+  patientId = +this.route.snapshot.params['id'];
 
-    this.patientService.getPatientById(patientId).subscribe(value => {
-      value.patientId = patient.patientId;
-      value.family = patient.family;
-      value.given = patient.given;
-      value.dob = patient.dob;
-      value.sex = patient.sex;
-      value.address = patient.address;
-      value.phone = patient.phone;
-    });
-    ;
-    console.log(patient.patientId)
+  ngOnInit() {
+
+    this.patientService.getPatientById(this.patientId).subscribe((patient) => this.updatePatientForm.setValue({
+      patientId: patient.patientId,
+      family: patient.family,
+      given: patient.given,
+      dob: patient.dob,
+      sex: patient.sex,
+      address: patient.address,
+      phone: patient.phone
+    }))
+
     this.updatePatientForm = this.formBuilder.group({
-      patientId: [patient.patientId],
-      family: [patient.family, [Validators.required]],
-      given: [patient.given, [Validators.required]],
-      dob: [patient.dob, [Validators.required]],
-      sex: [patient.sex, [Validators.required]],
-      address: [patient.address],
-      phone: [patient.phone]
+      patientId: [''],
+      family: ['', [Validators.required]],
+      given: ['', [Validators.required]],
+      dob: ['', [Validators.required]],
+      sex: ['', [Validators.required]],
+      address: [''],
+      phone: ['']
     });
   }
 
   onCloseIcon(): void {
-    // this.router.navigateByUrl(`patient/${this.patient.patientId}`);
+    this.router.navigateByUrl(`patient/${this.patientId}`);
   }
 
   onSubmitForm() {

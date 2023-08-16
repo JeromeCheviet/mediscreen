@@ -80,13 +80,15 @@ export class PatientService {
     sex: string,
     address?: string,
     phone?: string
-  }): Observable<Patient> {
+  }): void {
     const updatedPatient: Patient = {
       ...formValue
     };
     /*const indexPatient = this.patients.findIndex(patient => patient.patientId === updatedPatient.patientId);
     this.patients[indexPatient] = updatedPatient;*/
-    this.http.put(`http://localhost:8081/patient/${updatedPatient.patientId}`, updatedPatient);
-    return this.getPatientById(updatedPatient.patientId)
+    console.log(updatedPatient.family)
+    console.log(updatedPatient.patientId)
+    this.http.put<Patient>(`http://localhost:8081/patient/${updatedPatient.patientId}`, updatedPatient);
+    //return this.getPatientById(updatedPatient.patientId)
   }
 }
