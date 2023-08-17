@@ -88,7 +88,7 @@ export class PatientService {
     this.patients[indexPatient] = updatedPatient;*/
     console.log(updatedPatient.family)
     console.log(updatedPatient.patientId)
-    this.http.put<Patient>(`http://localhost:8081/patient/${updatedPatient.patientId}`, updatedPatient);
+    this.http.put<Patient>(`http://localhost:8081/patient/${updatedPatient.patientId}`, updatedPatient).subscribe();
     //return this.getPatientById(updatedPatient.patientId)
   }
 }

@@ -53,6 +53,7 @@ export class UpdatePatientComponent {
   onSubmitForm() {
     console.log(this.updatePatientForm.value);
     this.patientService.updatePatient(this.updatePatientForm.value);
+    this.patientService.getPatientById(this.patientId)
     this.onCloseIcon();
   }
 }
