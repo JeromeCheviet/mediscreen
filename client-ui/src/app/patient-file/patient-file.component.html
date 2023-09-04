@@ -1,0 +1,23 @@
+<div class="patient-card" *ngIf="patient$ | async as patient">
+  <div class="patient-card-top">
+    <p>
+      {{ patient.family | uppercase }} {{ patient.given | uppercase }}
+      <img class="icon" [src]="patient.sex === 'M' ? sexMIcon : sexFIcon" alt="Sex Icon">
+    </p>
+    <div>
+      {{ patient.dob }}
+    </div>
+    <div>
+      <a (click)="onUpdatePatient()"><img class="patient-card-icon" [src]="editIcon" alt="Edit Patient"></a>
+      <a routerLink=""><img class="patient-card-icon" [src]="closeIcon" alt="Close File"></a>
+    </div>
+  </div>
+  <div class="patient-card-body">
+    <p>
+      <b>Address:</b> {{ patient.address }}
+    </p>
+    <p>
+      <b>Phone Number:</b> {{ patient.phone }}
+    </p>
+  </div>
+</div>
