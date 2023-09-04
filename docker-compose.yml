@@ -14,6 +14,14 @@ services:
     volumes:
       - dbpatient_mediscreen:/var/lib/mysql
 
+  mongodb:
+    image: mongodb/mongodb-community-server:7.0.0-ubi8
+    container_name: mongodb_notes
+    volumes:
+      - mongodb_mediscreen:/data/db
+    ports:
+      - '27017:27017'
+
   eureka-server:
     build:
       context: eureka-server/.
@@ -35,3 +43,4 @@ services:
 
 volumes:
   dbpatient_mediscreen:
+  mongodb_mediscreen:
