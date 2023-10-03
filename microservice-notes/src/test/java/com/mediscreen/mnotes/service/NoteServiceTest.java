@@ -24,7 +24,7 @@ public class NoteServiceTest {
     private NoteRepository noteRepository;
 
     private String expectedId = "12345678abcdef";
-    private String expectedPatId = "1";
+    private Integer expectedPatId = 1;
     private String expectedPatNote = "My first note";
 
     private Note expectedNote = new Note();
@@ -45,7 +45,7 @@ public class NoteServiceTest {
 
         when(noteRepository.findNotesByPatId(expectedPatId)).thenReturn(expectedNotes);
 
-        Iterable<Note> actualNotes = noteRepository.findNotesByPatId("1");
+        Iterable<Note> actualNotes = noteRepository.findNotesByPatId(1);
 
         assertEquals(expectedNotes, actualNotes);
         verify(noteRepository, times(1)).findNotesByPatId(expectedPatId);

@@ -16,7 +16,7 @@ public class NoteServiceImpl implements NoteService {
     private NoteRepository noteRepository;
 
     @Override
-    public Iterable<Note> getNotesByPatId(String patId) {
+    public Iterable<Note> getNotesByPatId(Integer patId) {
         logger.debug("Get all notes for patient id : {}", patId);
         Iterable<Note> notes = noteRepository.findNotesByPatId(patId);
         if (!notes.iterator().hasNext()) {
@@ -24,4 +24,30 @@ public class NoteServiceImpl implements NoteService {
         }
         return notes;
     }
+
+    @Override
+    public void addNote(Note note) {
+        logger.debug("Add new note with patid: {}", note.getPatId());
+        try {
+            noteRepository.insert(note);
+        } catch (Exception e) {
+            logger.error("Note not created. Reason : " + e);
+        }
+    }
+
+    @Override
+    public Note updateNote(Note note) {
+        logger.debug("Update note with id {}", note.getId());
+        noteRepository.save(note);
+
+        Note updatedNote = noteRepository.findAllById(note.getId());
+
+        if (!note.toString().equals(updatedNote.toString())) {
+            logger.error("Note with id " + note.getId() + " not updated");
+        }
+
+        return updatedNote;
+    }
+
+
 }
