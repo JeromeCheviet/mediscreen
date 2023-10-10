@@ -36,4 +36,12 @@ public class NoteController {
         logger.debug("Put /patHistory");
         return new ResponseEntity<>(noteService.updateNote(updatedNote), HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/patHistory/{noteId}")
+    public ResponseEntity<String> deleteNote(@PathVariable("noteId") String noteId) {
+        logger.debug("Delete /patHistory/{}", noteId);
+        noteService.deleteNote(noteId);
+
+        return new ResponseEntity<>("Note " + noteId + " deleted", HttpStatus.NO_CONTENT);
+    }
 }

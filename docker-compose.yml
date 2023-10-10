@@ -41,6 +41,17 @@ services:
       - db_patient
       - eureka-server
 
+  mnotes:
+    build:
+      context: microservice-notes/.
+      dockerfile: Dockerfile
+    container_name: mnotes
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mongodb
+      - eureka-server
+
 volumes:
   dbpatient_mediscreen:
   mongodb_mediscreen:
