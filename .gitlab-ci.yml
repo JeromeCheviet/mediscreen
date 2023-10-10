@@ -67,3 +67,17 @@ Build-JAR-eureka-server:
     expire_in: 7 days
   tags:
     - docker
+
+Build-JAR-microservice-patient:
+  stage: build
+  image: maven:3.9.2-amazoncorretto-17-debian-bookworm
+  extends: .ignore
+  script:
+    - cd microserice-notes
+    - mvn ${MVN_OPTS} -Drevision=x.y.z-SUFFIX -DskipTests -B clean install
+  artifacts:
+    paths:
+      - microservice-notes/target/*.jar
+    expire_in: 7 days
+  tags:
+    - docker
