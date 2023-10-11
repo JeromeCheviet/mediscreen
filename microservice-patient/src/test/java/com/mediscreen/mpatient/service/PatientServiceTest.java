@@ -47,29 +47,6 @@ class PatientServiceTest {
             expectedPhone
     );
 
-//    @BeforeEach
-//    private void setUp() {
-//        int expectedPatientId = 1;
-//        String expectedFamily = "John";
-//        String expectedGiven = "Doe";
-//        LocalDate expectedDob = LocalDate.parse("1990-12-25");
-//        String expectedSex = "M";
-//        String expectedAddress = "1 rue du Puit";
-//        String expectedPhone = "000-111-3333";
-//
-//        Patient expectedPatient = new Patient();
-//
-//        expectedPatient.setPatientId(expectedPatientId);
-//        expectedPatient.setFamily(expectedFamily);
-//        expectedPatient.setGiven(expectedGiven);
-//        expectedPatient.setDob(expectedDob);
-//        expectedPatient.setSex(expectedSex);
-//        expectedPatient.setAddress(expectedAddress);
-//        expectedPatient.setPhone(expectedPhone);
-//
-//        System.out.println(expectedPatient.toString().toString());
-//    }
-
     @Test
     void testGetPatients() {
         Patient expectedPatient2 = new Patient(2,

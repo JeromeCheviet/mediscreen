@@ -21,7 +21,7 @@ stages:
       - "*.md"
       - "doc/*"
 
-Test-multiservice-patient:
+Test-microservice-patient:
   stage: test
   image: maven:3.9.2-amazoncorretto-17-debian-bookworm
   services:
@@ -38,12 +38,12 @@ Test-multiservice-patient:
   tags:
     - docker
 
-Build-JAR-multiservice-patient:
+Build-JAR-microservice-patient:
   stage: build
   image: maven:3.9.2-amazoncorretto-17-debian-bookworm
   extends: .ignore
   needs:
-    - Test-multiservice-patient
+    - Test-microservice-patient
   script:
     - cd microservice-patient
     - mvn ${MVN_OPTS} -Drevision=x.y.z-SUFFIX -DskipTests -B clean install
@@ -64,6 +64,20 @@ Build-JAR-eureka-server:
   artifacts:
     paths:
       - eureka-server/target/*.jar
+    expire_in: 7 days
+  tags:
+    - docker
+
+Build-JAR-microservice-note:
+  stage: build
+  image: maven:3.9.2-amazoncorretto-17-debian-bookworm
+  extends: .ignore
+  script:
+    - cd microservice-notes
+    - mvn ${MVN_OPTS} -Drevision=x.y.z-SUFFIX -DskipTests -B clean install
+  artifacts:
+    paths:
+      - microservice-notes/target/*.jar
     expire_in: 7 days
   tags:
     - docker
