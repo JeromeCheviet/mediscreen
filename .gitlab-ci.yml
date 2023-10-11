@@ -43,7 +43,7 @@ Build-JAR-microservice-patient:
   image: maven:3.9.2-amazoncorretto-17-debian-bookworm
   extends: .ignore
   needs:
-    - Test-multiservice-patient
+    - Test-microservice-patient
   script:
     - cd microservice-patient
     - mvn ${MVN_OPTS} -Drevision=x.y.z-SUFFIX -DskipTests -B clean install
