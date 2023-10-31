@@ -1,4 +1,4 @@
 export class NewNote {
-  patId!: string;
+  patId!: number;
   notes!: string;
 }
