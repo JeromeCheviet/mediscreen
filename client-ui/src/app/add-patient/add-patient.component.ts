@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   templateUrl: './add-patient.component.html',
   styleUrls: ['./add-patient.component.scss']
 })
-export class AddPatientComponent {
+export class AddPatientComponent implements OnInit {
   addPatientForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
