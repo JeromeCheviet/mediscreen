@@ -3,6 +3,7 @@ import {Patient} from "../models/patient.model";
 import {Observable} from "rxjs";
 import {Note} from "../models/note.model";
 import {NoteService} from "../services/note.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-patient-note',
@@ -15,7 +16,8 @@ export class PatientNoteComponent implements OnInit {
   patHist$!: Observable<Note[]>;
   patHistColumn: string[] = ["notes"];
 
-  constructor(private noteService: NoteService) {
+  constructor(private noteService: NoteService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -24,7 +26,7 @@ export class PatientNoteComponent implements OnInit {
   }
 
   onAddNote(): void {
-    console.log("Add Note form")
+    this.router.navigateByUrl(`addNote/${+this.patientId}`)
   }
 
   onEditNote(patHistRow: Note): void {
