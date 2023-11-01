@@ -14,6 +14,7 @@ import { AddPatientComponent } from './add-patient/add-patient.component';
 import { UpdatePatientComponent } from './update-patient/update-patient.component';
 import {HttpClientModule} from "@angular/common/http";
 import { PatientNoteComponent } from './patient-note/patient-note.component';
+import { AddNoteComponent } from './add-note/add-note.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { PatientNoteComponent } from './patient-note/patient-note.component';
     PatientFileComponent,
     AddPatientComponent,
     UpdatePatientComponent,
-    PatientNoteComponent
+    PatientNoteComponent,
+    AddNoteComponent
   ],
     imports: [
         BrowserModule,
