@@ -23,11 +23,11 @@ export class NoteService {
   }
 
   getNotePatient(patientId: number): Observable<Note[]> {
-    return this.http.get<Note[]>(`http://localhost:8082/patHistory/${patientId}`)
+    return this.http.get<Note[]>(`http://localhost:8082/patHistory/${patientId}`);
   }
 
   getNoteId(noteId: string): Observable<Note> {
-    return this.http.get<Note>(`http://localhost:8082/patHistory/note/${noteId}`)
+    return this.http.get<Note>(`http://localhost:8082/patHistory/note/${noteId}`);
   }
 
   updateNote(formValue: {
@@ -38,7 +38,7 @@ export class NoteService {
     const updatedNote: Note = {
       ...formValue
     }
-    this.http.put('http://localhost:8082/patHistory', updatedNote)
+    this.http.put('http://localhost:8082/patHistory', updatedNote);
   }
 }
 
