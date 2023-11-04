@@ -26,6 +26,10 @@ export class NoteService {
     return this.http.get<Note[]>(`http://localhost:8082/patHistory/${patientId}`)
   }
 
+  getNoteId(noteId: string): Observable<Note> {
+    return this.http.get<Note>(`http://localhost:8082/patHistory/note/${noteId}`)
+  }
+
   updateNote(formValue: {
     id: string,
     patId: number,
