@@ -1,1 +1,17 @@
-<p>add-note works!</p>
+<div class="form-card">
+  <div>
+    <img class="add-note-card-icon" [src]="closeIcon" alt="Close Form" (click)="onCloseIcon()">
+  </div>
+  <h2>New note</h2>
+  <form [formGroup]="addNoteForm">
+    <div class="form-group">
+      <input id="patId" type="hidden" formControlName="patId">
+    </div>
+    <div class="form-group">
+      <textarea formControlName="notes">insert new notes</textarea>
+    </div>
+    <div class="action-buttons">
+      <button type="submit" (click)="onSubmitForm()" [disabled]="addNoteForm.invalid">Create</button>
+    </div>
+  </form>
+</div>
