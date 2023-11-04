@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PatientService} from "../services/patient.service";
 import {Router} from "@angular/router";
@@ -24,12 +24,12 @@ export class AddPatientComponent implements OnInit {
       sex: [null, [Validators.required]],
       address: [null],
       phone: [null]
-      });
+    });
   }
 
   onSubmitForm() {
-    console.log(this.addPatientForm.value)
-    this.patientService.addPatient(this.addPatientForm.value)
+    console.log(this.addPatientForm.value);
+    this.patientService.addPatient(this.addPatientForm.value);
     this.router.navigateByUrl('');
   }
 }

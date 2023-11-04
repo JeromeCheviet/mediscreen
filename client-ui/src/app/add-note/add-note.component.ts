@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NoteService} from "../services/note.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -34,7 +34,6 @@ export class AddNoteComponent implements OnInit {
   onSubmitForm(): void {
     console.log(this.addNoteForm.value);
     this.noteService.addNote(this.addNoteForm.value);
-    this.router.navigateByUrl('');
   }
 
 }
