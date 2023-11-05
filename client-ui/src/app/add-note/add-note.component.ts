@@ -34,6 +34,7 @@ export class AddNoteComponent implements OnInit {
   onSubmitForm(): void {
     console.log(this.addNoteForm.value);
     this.noteService.addNote(this.addNoteForm.value);
+    this.router.navigateByUrl(`patient/${this.patId}`);
   }
 
 }
