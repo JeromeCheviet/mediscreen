@@ -45,7 +45,7 @@ export class UpdateNoteComponent implements OnInit {
   onSubmitForm(): void {
     console.log(this.updateNoteForm.value);
     this.noteService.updateNote(this.updateNoteForm.value);
-    this.patientService.getPatientById(this.updateNoteForm.value.patId)
+    this.noteService.getNotePatient(this.updateNoteForm.value.patId);
     this.onCloseIcon();
   }
 

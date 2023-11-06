@@ -34,11 +34,11 @@ export class NoteService {
     id: string,
     patId: number,
     notes: string
-  }) {
+  }): void {
     const updatedNote: Note = {
       ...formValue
-    }
-    this.http.put('http://localhost:8082/patHistory', updatedNote);
+    };
+    this.http.put('http://localhost:8082/patHistory', updatedNote).subscribe();
   }
 }
 

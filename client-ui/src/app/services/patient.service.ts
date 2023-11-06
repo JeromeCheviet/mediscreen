@@ -46,11 +46,8 @@ export class PatientService {
     const updatedPatient: Patient = {
       ...formValue
     };
-    /*const indexPatient = this.patients.findIndex(patient => patient.patientId === updatedPatient.patientId);
-    this.patients[indexPatient] = updatedPatient;*/
     console.log(updatedPatient.family)
     console.log(updatedPatient.patientId)
     this.http.put<Patient>(`http://localhost:8081/patient/${updatedPatient.patientId}`, updatedPatient).subscribe();
-    //return this.getPatientById(updatedPatient.patientId)
   }
 }
