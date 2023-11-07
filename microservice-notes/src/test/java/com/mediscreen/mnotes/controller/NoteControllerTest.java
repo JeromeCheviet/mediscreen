@@ -87,6 +87,31 @@ public class NoteControllerTest {
 
     @Test
     @Order(4)
+    void testGetAllByNoteId() throws Exception {
+        Iterable<Note> expectedNotes = noteService.getNotesByPatId(1);
+        Note note = expectedNotes.iterator().next();
+        String expectedNoteId = note.getId();
+
+        MvcResult mvcResult = mvc.perform(get("/patHistory/note/" + expectedNoteId))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        assertTrue(mvcResult.getResponse().getContentAsString().contains("My first note"));
+    }
+
+    @Test
+    @Order(5)
+    void testGetAllByNoteId_mustReturnNotFound_whenNoteIdNotExist() throws Exception {
+        mvc.perform(get("/patHistory/note/badnoteid"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(status().reason("Note not found"));
+    }
+
+    @Test
+    @Order(6)
     void testUpdateNote_mustReturnOk() throws Exception {
         Iterable<Note> expectedNotes = noteService.getNotesByPatId(1);
         Note note = expectedNotes.iterator().next();
@@ -107,7 +132,7 @@ public class NoteControllerTest {
     }
 
     @Test
-    @Order(5)
+    @Order(7)
     void testDeleteNote_mustReturnNoContent() throws Exception {
         Iterable<Note> expectedNotes = noteService.getNotesByPatId(1);
         Note note = expectedNotes.iterator().next();

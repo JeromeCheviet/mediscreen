@@ -19,8 +19,14 @@ public class NoteController {
 
     @GetMapping(value = "/patHistory/{patId}")
     public ResponseEntity<Iterable<Note>> getNoteByPatId(@PathVariable("patId") Integer patId) {
-        logger.debug("get /patHistory/{}", patId);
+        logger.debug("Get /patHistory/{}", patId);
         return new ResponseEntity<>(noteService.getNotesByPatId(patId), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/patHistory/note/{noteId}")
+    public ResponseEntity<Note> getAllByNoteId(@PathVariable("noteId") String noteId) {
+        logger.debug("Get /patHistory/note/{}", noteId);
+        return new ResponseEntity<>(noteService.getNoteById(noteId), HttpStatus.OK);
     }
 
     @PostMapping(value = "/patHistory/add")

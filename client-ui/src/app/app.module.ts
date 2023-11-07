@@ -13,6 +13,9 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { AddPatientComponent } from './add-patient/add-patient.component';
 import { UpdatePatientComponent } from './update-patient/update-patient.component';
 import {HttpClientModule} from "@angular/common/http";
+import { PatientNoteComponent } from './patient-note/patient-note.component';
+import { AddNoteComponent } from './add-note/add-note.component';
+import { UpdateNoteComponent } from './update-note/update-note.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import {HttpClientModule} from "@angular/common/http";
     HomeComponent,
     PatientFileComponent,
     AddPatientComponent,
-    UpdatePatientComponent
+    UpdatePatientComponent,
+    PatientNoteComponent,
+    AddNoteComponent,
+    UpdateNoteComponent
   ],
     imports: [
         BrowserModule,

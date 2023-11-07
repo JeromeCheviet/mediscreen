@@ -1,0 +1,13 @@
+<button type="submit" (click)="onAddNote()" >Add Note</button>
+
+<div>
+  <table mat-table [dataSource]="patHist$" class="mat-elevation-z8">
+    <ng-container matColumnDef="notes">
+      <th mat-header-cell *matHeaderCellDef>Notes</th>
+      <td mat-cell *matCellDef="let patHist">{{ patHist.notes }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="patHistColumn"></tr>
+    <tr mat-row *matRowDef="let patHistRow; columns: patHistColumn;" (click)="onEditNote(patHistRow)"></tr>
+  </table>
+</div>

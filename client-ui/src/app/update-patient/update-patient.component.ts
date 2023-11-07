@@ -1,16 +1,15 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PatientService} from "../services/patient.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Patient} from "../models/patient.model";
-import {map, Observable} from "rxjs";
 
 @Component({
   selector: 'app-update-patient',
   templateUrl: './update-patient.component.html',
   styleUrls: ['./update-patient.component.scss']
 })
-export class UpdatePatientComponent {
+export class UpdatePatientComponent implements OnInit {
   updatePatientForm!: FormGroup;
   patient!: Patient;
   closeIcon: string = "/assets/images/close.png";
@@ -33,7 +32,7 @@ export class UpdatePatientComponent {
       sex: patient.sex,
       address: patient.address,
       phone: patient.phone
-    }))
+    }));
 
     this.updatePatientForm = this.formBuilder.group({
       patientId: [''],
@@ -53,7 +52,7 @@ export class UpdatePatientComponent {
   onSubmitForm() {
     console.log(this.updatePatientForm.value);
     this.patientService.updatePatient(this.updatePatientForm.value);
-    this.patientService.getPatientById(this.patientId)
+    this.patientService.getPatientById(this.patientId);
     this.onCloseIcon();
   }
 }

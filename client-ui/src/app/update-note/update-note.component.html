@@ -1,0 +1,14 @@
+<div class="form-card">
+  <div>
+    <img class="update-note-card-icon" [src]="closeIcon" alt="Close Form" (click)="onCloseIcon()">
+  </div>
+  <h2>New note</h2>
+  <form [formGroup]="updateNoteForm">
+    <div class="form-group">
+      <textarea formControlName="notes"></textarea>
+    </div>
+    <div class="action-buttons">
+      <button type="submit" (click)="onSubmitForm()" [disabled]="updateNoteForm.invalid">Apply</button>
+    </div>
+  </form>
+</div>
