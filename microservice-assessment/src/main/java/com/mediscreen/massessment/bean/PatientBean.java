@@ -15,5 +15,6 @@ public class PatientBean {
     private String given;
     private LocalDate dob;
     private String sex;
+    private String address;
     private String phone;
 }
