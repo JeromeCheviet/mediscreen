@@ -33,24 +33,21 @@ class AssessmentServiceTest {
         expectedPatientBean.setGiven("Doe");
         expectedPatientBean.setDob(LocalDate.now().minusYears(20));
         expectedPatientBean.setSex("F");
-        expectedPatientBean.setAddress("1 rue du Puit");
-        expectedPatientBean.setPhone("000-222-4444");
 
-        expectedNoteBean.setId("1111aaaa");
-        expectedNoteBean.setPatId(1);
-        expectedNoteBean.setNotes("Le patient est fumeur");
-
-        expectedSecondNoteBean.setId("1111bbbb");
-        expectedSecondNoteBean.setPatId(1);
-        expectedSecondNoteBean.setNotes("Le patient a du Cholestérol");
     }
 
     @Test
     void testGetPatientAssessment_returnAssessment() {
         Assessment expectedAssessment = new Assessment("Jane Doe", 20, Risk.NONE);
+
+        expectedNoteBean.setNotes("Le patient est fumeur");
+        expectedSecondNoteBean.setNotes("Le patient a du Cholestérol");
+
         List<NoteBean> expectedNoteBeanList = new ArrayList<>();
+
         expectedNoteBeanList.add(expectedNoteBean);
         expectedNoteBeanList.add(expectedSecondNoteBean);
+
         Assessment actualAssessment = assessmentService.getPatientAssessment(expectedPatientBean, expectedNoteBeanList);
 
         assertEquals(expectedAssessment.toString(), actualAssessment.toString());
