@@ -1,8 +1,5 @@
 package com.mediscreen.massessment.model;
 
-import lombok.ToString;
-
-@ToString
 public enum Risk {
     NONE("None"),
     BORDERLINE("Borderline"),
@@ -13,5 +10,10 @@ public enum Risk {
 
     Risk(String assessment) {
         this.assessment = assessment;
+    }
+
+    @Override
+    public String toString() {
+        return assessment;
     }
 }
