@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -17,7 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,12 +29,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AssessmentControllerTest {
     @RegisterExtension
     static WireMockExtension PATIENT = WireMockExtension.newInstance()
-            .options(WireMockConfiguration.wireMockConfig().bindAddress("localhost").port(8081))
+            .options(WireMockConfiguration.wireMockConfig().port(8081))
             .build();
 
     @RegisterExtension
     static WireMockExtension NOTES = WireMockExtension.newInstance()
-            .options(WireMockConfiguration.wireMockConfig().bindAddress("localhost").port(8082))
+            .options(WireMockConfiguration.wireMockConfig().port(8082))
             .build();
 
     @Autowired
@@ -86,4 +87,5 @@ class AssessmentControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
+
 }
