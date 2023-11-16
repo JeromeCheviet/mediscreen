@@ -52,6 +52,18 @@ services:
       - mongodb
       - eureka-server
 
+  massessment:
+    build:
+      context: microservice-assessment/.
+      dockerfile: Dockerfile
+    container_name: massessment
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka-server
+      - mpatient
+      - mnotes
+
 volumes:
   dbpatient_mediscreen:
   mongodb_mediscreen:

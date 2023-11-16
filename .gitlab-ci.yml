@@ -81,3 +81,17 @@ Build-JAR-microservice-note:
     expire_in: 7 days
   tags:
     - docker
+
+Build-JAR-microservice-assessment:
+  stage: build
+  image: maven:3.9.2-amazoncorretto-17-debian-bookworm
+  extends: .ignore
+  script:
+    - cd microservice-assessment
+    - mvn ${MVN_OPTS} -Drevision=x.y.z-SUFFIX -DskipTests -B clean install
+  artifacts:
+    paths:
+      - microservice-assessment/target/*.jar
+    expire_in: 7 days
+  tags:
+    - docker
