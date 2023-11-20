@@ -3,9 +3,9 @@
     <b>Age:</b> {{ patAssess.patientAge}}
   </p>
   <p>
-    <b>Diabetes Risk:</b> <span [ngStyle]="{'color': (patAssess.risk == 'NONE') ? 'green' :
-    (patAssess.risk == 'BORDERLINE') ? 'yellow' :
-     (patAssess.risk == 'DANGER') ? 'orange' : 'red'}"> {{ patAssess.risk | titlecase }}</span>
+    <b>Diabetes Risk: </b> <span [ngStyle]="{'background-color': (patAssess.risk == 'NONE') ? '#66ff33' :
+    (patAssess.risk == 'BORDERLINE') ? '#e6e600' :
+     (patAssess.risk == 'DANGER') ? '#e67300' : '#e60000'}"> {{ patAssess.risk | titlecase }}</span>
   </p>
 </div>
 
