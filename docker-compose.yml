@@ -64,6 +64,19 @@ services:
       - mpatient
       - mnotes
 
+  client-ui:
+    build:
+      context: client-ui/.
+      dockerfile: Dockerfile
+    container_name: client-ui
+    ports:
+      - "80:80"
+    network_mode: host
+    depends_on:
+      - massessment
+      - mpatient
+      - mnotes
+
 volumes:
   dbpatient_mediscreen:
   mongodb_mediscreen:
