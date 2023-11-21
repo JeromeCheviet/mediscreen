@@ -1,0 +1,11 @@
+<div *ngIf="patAssess$ | async as patAssess">
+  <p>
+    <b>Age:</b> {{ patAssess.patientAge}}
+  </p>
+  <p>
+    <b>Diabetes Risk: </b> <span [ngStyle]="{'background-color': (patAssess.risk == 'NONE') ? '#66ff33' :
+    (patAssess.risk == 'BORDERLINE') ? '#e6e600' :
+     (patAssess.risk == 'DANGER') ? '#e67300' : '#e60000'}"> {{ patAssess.risk | titlecase }}</span>
+  </p>
+</div>
+

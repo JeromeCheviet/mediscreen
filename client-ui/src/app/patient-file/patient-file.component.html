@@ -13,12 +13,19 @@
     </div>
   </div>
   <div class="patient-card-body">
-    <p>
-      <b>Address:</b> {{ patient.address }}
-    </p>
-    <p>
-      <b>Phone Number:</b> {{ patient.phone }}
-    </p>
+    <div>
+      <p>
+        <b>Address:</b> {{ patient.address }}
+      </p>
+      <p>
+        <b>Phone Number:</b> {{ patient.phone }}
+      </p>
+    </div>
+    <div>
+      <app-patient-assess patientId="{{ patient.patientId }}"></app-patient-assess>
+    </div>
+    <div>
+    </div>
   </div>
 
   <app-patient-note patientId="{{ patient.patientId }}"></app-patient-note>

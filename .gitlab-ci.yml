@@ -95,3 +95,19 @@ Build-JAR-microservice-assessment:
     expire_in: 7 days
   tags:
     - docker
+
+Build-Angular-client-ui:
+  stage: build
+  image: node:18-slim
+  extends: .ignore
+  script:
+    - cd client-ui
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - client-ui/dist
+    expire_in: 7 days
+  tags:
+    - docker
+

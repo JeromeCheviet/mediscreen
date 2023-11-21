@@ -10,7 +10,6 @@ import {Observable} from "rxjs";
   styleUrls: ['./patient-file.component.scss']
 })
 export class PatientFileComponent implements OnInit {
-  //patient!: Patient;
   patient$!: Observable<Patient>;
   sexMIcon: String = "/assets/images/male.png";
   sexFIcon: String = "/assets/images/female.png";
