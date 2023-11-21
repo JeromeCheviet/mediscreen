@@ -13,13 +13,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Class to interact with Patient table data
+ */
 @Service
 public class PatientServiceImpl implements PatientService {
-    private Logger logger = LoggerFactory.getLogger(PatientServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(PatientServiceImpl.class);
 
     @Autowired
     private PatientRepository patientRepository;
 
+    /**
+     * {@inheritDoc}
+     *
+     * <br>If no patient is found, a custom exception is throwing
+     */
     @Override
     public Iterable<Patient> getPatients() {
         logger.debug("Get all patients");
@@ -30,6 +38,11 @@ public class PatientServiceImpl implements PatientService {
         return patients;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <br>If patient not exist, a custom exception is throwing
+     */
     @Override
     public Patient getPatientById(int patientId) {
         logger.debug("Get patient with id {}", patientId);
@@ -42,6 +55,11 @@ public class PatientServiceImpl implements PatientService {
         return patient.get();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <br>If an error is occurred when the patient is saving, a custom exception is throwing
+     */
     @Override
     public void addPatient(Patient patient) {
         logger.debug("Create patient with family {}", patient.getFamily());
@@ -52,6 +70,12 @@ public class PatientServiceImpl implements PatientService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <br>After deleting, the method try to get the patient by her old id. If the id exist again in database,
+     * a custom exception is throwing
+     */
     @Override
     public void deletePatient(Patient patient) {
         logger.debug("Delete patient with id {}", patient.getPatientId());
@@ -66,6 +90,12 @@ public class PatientServiceImpl implements PatientService {
 
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <br>After updating, the method compare the information from the database and from the json object.
+     * If they are different, a custom exception id throwing
+     */
     @Override
     public Patient updatePatient(Patient patient) {
         logger.debug("Update patient with id {}", patient.getPatientId());
