@@ -1,5 +1,8 @@
 package com.mediscreen.massessment.model;
 
+/**
+ * Enumeration class contain the risk attempt
+ */
 public enum Risk {
     NONE("None"),
     BORDERLINE("Borderline"),

@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
+/**
+ * POJO object to work with Patient
+ */
 @Getter
 @Setter
 public class PatientBean {
