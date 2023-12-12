@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NoteController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">microservice-notes</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.mnotes.controller</a> &gt; <span class="el_source">NoteController.java</span></div><h1>NoteController.java</h1><pre class="source lang-java linenums">package com.mediscreen.mnotes.controller;
+
+import com.mediscreen.mnotes.model.Note;
+import com.mediscreen.mnotes.service.NoteService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * Class which manage REST API Controller for patient history.
+ */
+@CrossOrigin
+@RestController
+<span class="fc" id="L17">public class NoteController {</span>
+<span class="fc" id="L18">    private static final Logger logger = LoggerFactory.getLogger(NoteController.class);</span>
+
+    @Autowired
+    private NoteService noteService;
+
+    /**
+     * Method to get all note to belongs to one patient
+     *
+     * @param patId Integer - The patient ID
+     * @return an iterable list of Note object and the HTTP status 200
+     */
+    @GetMapping(value = &quot;/patHistory/{patId}&quot;)
+    public ResponseEntity&lt;Iterable&lt;Note&gt;&gt; getNoteByPatId(@PathVariable(&quot;patId&quot;) Integer patId) {
+<span class="fc" id="L31">        logger.debug(&quot;Get /patHistory/{}&quot;, patId);</span>
+<span class="fc" id="L32">        return new ResponseEntity&lt;&gt;(noteService.getNotesByPatId(patId), HttpStatus.OK);</span>
+    }
+
+    /**
+     * Method to get a specific note
+     *
+     * @param noteId String - The id of the note
+     * @return The note object and the HTTP status 200
+     */
+    @GetMapping(value = &quot;/patHistory/note/{noteId}&quot;)
+    public ResponseEntity&lt;Note&gt; getAllByNoteId(@PathVariable(&quot;noteId&quot;) String noteId) {
+<span class="fc" id="L43">        logger.debug(&quot;Get /patHistory/note/{}&quot;, noteId);</span>
+<span class="fc" id="L44">        return new ResponseEntity&lt;&gt;(noteService.getNoteById(noteId), HttpStatus.OK);</span>
+    }
+
+    /**
+     * Method to create a note
+     *
+     * @param newNote the object model Note in json format
+     * @return the created object Note and HTTP status 201
+     */
+    @PostMapping(value = &quot;/patHistory/add&quot;)
+    public ResponseEntity&lt;Note&gt; addNote(@RequestBody Note newNote) {
+<span class="fc" id="L55">        logger.debug(&quot;Post /patHistory/add&quot;);</span>
+<span class="fc" id="L56">        noteService.addNote(newNote);</span>
+
+<span class="fc" id="L58">        return new ResponseEntity&lt;&gt;(newNote, HttpStatus.CREATED);</span>
+    }
+
+    /**
+     * Method to update an existing note
+     *
+     * @param updatedNote the object model Note in json format
+     * @return the updated note and HTTP status 200
+     */
+    @PutMapping(value = &quot;/patHistory&quot;)
+    public ResponseEntity&lt;Note&gt; updateNote(@RequestBody Note updatedNote) {
+<span class="fc" id="L69">        logger.debug(&quot;Put /patHistory&quot;);</span>
+<span class="fc" id="L70">        return new ResponseEntity&lt;&gt;(noteService.updateNote(updatedNote), HttpStatus.OK);</span>
+    }
+
+    /**
+     * Method to delete a note
+     *
+     * @param noteId String - the ID of the note
+     * @return a string whose inform the id of deleted note and HTTP status 204
+     */
+    @DeleteMapping(value = &quot;/patHistory/{noteId}&quot;)
+    public ResponseEntity&lt;String&gt; deleteNote(@PathVariable(&quot;noteId&quot;) String noteId) {
+<span class="fc" id="L81">        logger.debug(&quot;Delete /patHistory/{}&quot;, noteId);</span>
+<span class="fc" id="L82">        noteService.deleteNote(noteId);</span>
+
+<span class="fc" id="L84">        return new ResponseEntity&lt;&gt;(&quot;Note &quot; + noteId + &quot; deleted&quot;, HttpStatus.NO_CONTENT);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

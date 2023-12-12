@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PatientController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">microservice-patient</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.mpatient.controller</a> &gt; <span class="el_source">PatientController.java</span></div><h1>PatientController.java</h1><pre class="source lang-java linenums">package com.mediscreen.mpatient.controller;
+
+import com.mediscreen.mpatient.model.Patient;
+import com.mediscreen.mpatient.service.PatientService;
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * Class which manage REST API Controller for patient.
+ */
+@CrossOrigin
+@RestController
+<span class="fc" id="L18">public class PatientController {</span>
+<span class="fc" id="L19">    private static final Logger logger = LoggerFactory.getLogger(PatientController.class);</span>
+
+    @Autowired
+    private PatientService patientService;
+
+    /**
+     * Method to get all patient present in database
+     *
+     * @return a list of all patient and the HTTP status 200
+     */
+    @GetMapping(value = &quot;/patient&quot;)
+    public ResponseEntity&lt;Iterable&lt;Patient&gt;&gt; getAllPatients() {
+<span class="fc" id="L31">        logger.debug(&quot;get /patient&quot;);</span>
+
+<span class="fc" id="L33">        return new ResponseEntity&lt;&gt;(patientService.getPatients(), HttpStatus.OK);</span>
+    }
+
+    /**
+     * Method to get all information for a specific patient
+     *
+     * @param id Interger - The patient ID
+     * @return all information about the patient and the HTTP status 200
+     */
+    @GetMapping(value = &quot;/patient/{id}&quot;)
+    public ResponseEntity&lt;Patient&gt; getPatient(@PathVariable(&quot;id&quot;) Integer id) {
+<span class="fc" id="L44">        logger.debug(&quot;get /patient/{}&quot;, id);</span>
+
+<span class="fc" id="L46">        return new ResponseEntity&lt;&gt;(patientService.getPatientById(id), HttpStatus.OK);</span>
+    }
+
+    /**
+     * Method to create a new patient.
+     *
+     * @param newPatient the object model Patient in json format
+     * @return all information about the new patient and HTTP status 201
+     */
+    @PostMapping(value = &quot;/patient/add&quot;)
+    public ResponseEntity&lt;Patient&gt; addPatient(@RequestBody @Valid Patient newPatient) {
+<span class="fc" id="L57">        logger.debug(&quot;Post /patient/add&quot;);</span>
+<span class="fc" id="L58">        patientService.addPatient(newPatient);</span>
+
+<span class="fc" id="L60">        return new ResponseEntity&lt;&gt;(newPatient, HttpStatus.CREATED);</span>
+    }
+
+    /**
+     * Method to update an existing patient
+     *
+     * @param id             Integer - Patient ID to update
+     * @param updatedPatient the object model Patient in json format
+     * @return all information including updated one and HTTP status 200
+     */
+    @PutMapping(value = &quot;/patient/{id}&quot;)
+    public ResponseEntity&lt;Patient&gt; updatePatient(@PathVariable(&quot;id&quot;) Integer id, @RequestBody @Valid Patient updatedPatient) {
+<span class="fc" id="L72">        logger.debug(&quot;Put /patient/{}&quot;, id);</span>
+<span class="fc" id="L73">        patientService.getPatientById(id);</span>
+<span class="fc" id="L74">        updatedPatient.setPatientId(id);</span>
+
+<span class="fc" id="L76">        return new ResponseEntity&lt;&gt;(patientService.updatePatient(updatedPatient), HttpStatus.OK);</span>
+    }
+
+    /**
+     * Method to delete a patient
+     *
+     * @param id Integer - Patient ID to delete
+     * @return a string whose inform the id of deleted patient and HTTP status 204
+     */
+    @DeleteMapping(value = &quot;/patient/{id}&quot;)
+    public ResponseEntity&lt;String&gt; deletePatient(@PathVariable(&quot;id&quot;) Integer id) {
+<span class="fc" id="L87">        logger.debug(&quot;Delete /patient/{}&quot;, id);</span>
+<span class="fc" id="L88">        patientService.deletePatient(patientService.getPatientById(id));</span>
+
+<span class="fc" id="L90">        return new ResponseEntity&lt;&gt;(&quot;Patient &quot; + id + &quot; deleted&quot;, HttpStatus.NO_CONTENT);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

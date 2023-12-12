@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PatientServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">microservice-patient</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.mpatient.service</a> &gt; <span class="el_source">PatientServiceImpl.java</span></div><h1>PatientServiceImpl.java</h1><pre class="source lang-java linenums">package com.mediscreen.mpatient.service;
+
+import com.mediscreen.mpatient.exception.PatientNotCreatedException;
+import com.mediscreen.mpatient.exception.PatientNotDeletedExcecption;
+import com.mediscreen.mpatient.exception.PatientNotFoundException;
+import com.mediscreen.mpatient.exception.PatientNotUpdatedException;
+import com.mediscreen.mpatient.model.Patient;
+import com.mediscreen.mpatient.repository.PatientRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+/**
+ * Class to interact with Patient table data
+ */
+@Service
+<span class="fc" id="L20">public class PatientServiceImpl implements PatientService {</span>
+<span class="fc" id="L21">    private static final Logger logger = LoggerFactory.getLogger(PatientServiceImpl.class);</span>
+
+    @Autowired
+    private PatientRepository patientRepository;
+
+    /**
+     * {@inheritDoc}
+     *
+     * &lt;br&gt;If no patient is found, a custom exception is throwing
+     */
+    @Override
+    public Iterable&lt;Patient&gt; getPatients() {
+<span class="fc" id="L33">        logger.debug(&quot;Get all patients&quot;);</span>
+<span class="fc" id="L34">        Iterable&lt;Patient&gt; patients = patientRepository.findAll();</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (!patients.iterator().hasNext()) {</span>
+<span class="fc" id="L36">            throw new PatientNotFoundException(&quot;No patients found in database&quot;);</span>
+        }
+<span class="fc" id="L38">        return patients;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * &lt;br&gt;If patient not exist, a custom exception is throwing
+     */
+    @Override
+    public Patient getPatientById(int patientId) {
+<span class="fc" id="L48">        logger.debug(&quot;Get patient with id {}&quot;, patientId);</span>
+<span class="fc" id="L49">        Optional&lt;Patient&gt; patient = patientRepository.findById(patientId);</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (patient.isEmpty()) {</span>
+<span class="fc" id="L51">            throw new PatientNotFoundException(&quot;Patient with id &quot; + patientId + &quot; not found&quot;);</span>
+        }
+<span class="fc" id="L53">        logger.debug(&quot;Return patient with id {} and family {}&quot;, patient.get().getPatientId(), patient.get().getFamily());</span>
+
+<span class="fc" id="L55">        return patient.get();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * &lt;br&gt;If an error is occurred when the patient is saving, a custom exception is throwing
+     */
+    @Override
+    public void addPatient(Patient patient) {
+<span class="fc" id="L65">        logger.debug(&quot;Create patient with family {}&quot;, patient.getFamily());</span>
+        try {
+<span class="fc" id="L67">            patientRepository.save(patient);</span>
+<span class="fc" id="L68">        } catch (Exception e) {</span>
+<span class="fc" id="L69">            throw new PatientNotCreatedException(&quot;Patient not created. Reason : &quot; + e);</span>
+<span class="fc" id="L70">        }</span>
+<span class="fc" id="L71">    }</span>
+
+    /**
+     * {@inheritDoc}
+     *
+     * &lt;br&gt;After deleting, the method try to get the patient by her old id. If the id exist again in database,
+     * a custom exception is throwing
+     */
+    @Override
+    public void deletePatient(Patient patient) {
+<span class="fc" id="L81">        logger.debug(&quot;Delete patient with id {}&quot;, patient.getPatientId());</span>
+
+<span class="fc" id="L83">        patientRepository.delete(patient);</span>
+
+<span class="fc" id="L85">        Optional&lt;Patient&gt; deletingPatient = patientRepository.findById(patient.getPatientId());</span>
+
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (deletingPatient.isPresent()) {</span>
+<span class="fc" id="L88">            throw new PatientNotDeletedExcecption(&quot;Patient with id &quot; + patient.getPatientId() + &quot; not deleted&quot;);</span>
+        }
+
+<span class="fc" id="L91">    }</span>
+
+    /**
+     * {@inheritDoc}
+     *
+     * &lt;br&gt;After updating, the method compare the information from the database and from the json object.
+     * If they are different, a custom exception is throwing
+     */
+    @Override
+    public Patient updatePatient(Patient patient) {
+<span class="fc" id="L101">        logger.debug(&quot;Update patient with id {}&quot;, patient.getPatientId());</span>
+<span class="fc" id="L102">        patientRepository.save(patient);</span>
+
+<span class="fc" id="L104">        Patient updatedPatient = getPatientById(patient.getPatientId());</span>
+
+
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (!patient.toString().equals(updatedPatient.toString())) {</span>
+<span class="fc" id="L108">            throw new PatientNotUpdatedException(&quot;Patient with id &quot; + patient.getPatientId() + &quot; not updated&quot;);</span>
+        }
+
+<span class="fc" id="L111">        return updatedPatient;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

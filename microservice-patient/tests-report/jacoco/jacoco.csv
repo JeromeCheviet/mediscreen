@@ -1,0 +1,9 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+microservice-patient,com.mediscreen.mpatient.controller,PatientController,0,86,0,0,0,16,0,7,0,7
+microservice-patient,com.mediscreen.mpatient.model,Patient,0,92,0,0,0,11,0,17,0,17
+microservice-patient,com.mediscreen.mpatient.service,PatientServiceImpl,0,136,0,8,0,31,0,11,0,7
+microservice-patient,com.mediscreen.mpatient,MicroservicePatientApplication,5,3,0,0,2,1,1,1,1,1
+microservice-patient,com.mediscreen.mpatient.exception,PatientNotUpdatedException,0,11,0,0,0,4,0,2,0,2
+microservice-patient,com.mediscreen.mpatient.exception,PatientNotCreatedException,0,11,0,0,0,4,0,2,0,2
+microservice-patient,com.mediscreen.mpatient.exception,PatientNotDeletedExcecption,0,11,0,0,0,4,0,2,0,2
+microservice-patient,com.mediscreen.mpatient.exception,PatientNotFoundException,0,11,0,0,0,4,0,2,0,2

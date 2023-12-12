@@ -1,0 +1,11 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+microservice-assessment,com.mediscreen.massessment.service,AssessmentServiceImpl,4,251,6,27,2,46,6,21,0,10
+microservice-assessment,com.mediscreen.massessment.configuration,CustomFeignClientConfiguration,0,7,0,0,0,2,0,2,0,2
+microservice-assessment,com.mediscreen.massessment,MicroserviceAssessmentApplication,5,3,0,0,2,1,1,1,1,1
+microservice-assessment,com.mediscreen.massessment.controller,AssessmentController,0,34,0,0,0,6,0,3,0,3
+microservice-assessment,com.mediscreen.massessment.exception,DataNotFoundException,0,11,0,0,0,4,0,2,0,2
+microservice-assessment,com.mediscreen.massessment.exception,CustomErrorDecoder,6,33,1,1,1,8,1,2,0,2
+microservice-assessment,com.mediscreen.massessment.bean,NoteBean,0,10,0,0,0,3,0,3,0,3
+microservice-assessment,com.mediscreen.massessment.bean,PatientBean,0,38,0,0,0,7,0,11,0,11
+microservice-assessment,com.mediscreen.massessment.model,Risk,0,45,0,0,0,10,0,3,0,3
+microservice-assessment,com.mediscreen.massessment.model,Assessment,0,32,0,0,0,6,0,6,0,6

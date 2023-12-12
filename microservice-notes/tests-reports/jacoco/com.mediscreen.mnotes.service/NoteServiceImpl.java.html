@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NoteServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">microservice-notes</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.mnotes.service</a> &gt; <span class="el_source">NoteServiceImpl.java</span></div><h1>NoteServiceImpl.java</h1><pre class="source lang-java linenums">package com.mediscreen.mnotes.service;
+
+import com.mediscreen.mnotes.exception.NoteNotCreatedException;
+import com.mediscreen.mnotes.exception.NoteNotDeletedException;
+import com.mediscreen.mnotes.exception.NoteNotFoundException;
+import com.mediscreen.mnotes.exception.NoteNotUpdatedException;
+import com.mediscreen.mnotes.model.Note;
+import com.mediscreen.mnotes.repository.NoteRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+/**
+ * Class to interact with Notes
+ */
+@Service
+<span class="fc" id="L20">public class NoteServiceImpl implements NoteService {</span>
+
+<span class="fc" id="L22">    private static final Logger logger = LoggerFactory.getLogger(NoteServiceImpl.class);</span>
+
+    @Autowired
+    private NoteRepository noteRepository;
+
+    /**
+     * {@inheritDoc}
+     *
+     * &lt;br&gt;If note not exist, a custom exception is throwing
+     */
+    @Override
+    public Iterable&lt;Note&gt; getNotesByPatId(Integer patId) {
+<span class="fc" id="L34">        logger.info(&quot;Get all notes for patient id : {}&quot;, patId);</span>
+<span class="fc" id="L35">        Iterable&lt;Note&gt; notes = noteRepository.findNotesByPatId(patId);</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (!notes.iterator().hasNext()) {</span>
+<span class="fc" id="L37">            throw new NoteNotFoundException(&quot;No note found for patient id : &quot; + patId);</span>
+        }
+<span class="fc" id="L39">        return notes;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * &lt;br&gt;If note is not found, a custom exception is throwing
+     */
+    @Override
+    public Note getNoteById(String noteId) {
+<span class="fc" id="L49">        logger.debug(&quot;Get note with id {}&quot;, noteId);</span>
+<span class="fc" id="L50">        Optional&lt;Note&gt; note = noteRepository.findAllById(noteId);</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (note.isEmpty()) {</span>
+<span class="fc" id="L52">            throw new NoteNotFoundException(&quot;Note with id &quot; + noteId + &quot; not found&quot;);</span>
+        }
+<span class="fc" id="L54">        return note.get();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * &lt;br&gt;If an error is occured when the note is saving, a custom exception is throwing
+     */
+    @Override
+    public void addNote(Note note) {
+<span class="fc" id="L64">        logger.debug(&quot;Add new note with patid: {}&quot;, note.getPatId());</span>
+        try {
+<span class="fc" id="L66">            noteRepository.insert(note);</span>
+<span class="fc" id="L67">        } catch (Exception e) {</span>
+<span class="fc" id="L68">            throw new NoteNotCreatedException(&quot;Note not created. Reason : &quot; + e);</span>
+<span class="fc" id="L69">        }</span>
+<span class="fc" id="L70">    }</span>
+
+    /**
+     * {@inheritDoc}
+     *
+     * &lt;br&gt;After updating, the method compare the information from the database and from the json object.
+     * If they are different, a custom exception is throwing
+     */
+    @Override
+    public Note updateNote(Note note) {
+<span class="fc" id="L80">        logger.debug(&quot;Update note with id {}&quot;, note.getId());</span>
+<span class="fc" id="L81">        noteRepository.save(note);</span>
+
+<span class="fc" id="L83">        Note updatedNote = getNoteById(note.getId());</span>
+
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (!note.toString().equals(updatedNote.toString())) {</span>
+<span class="fc" id="L86">            throw new NoteNotUpdatedException(&quot;Note with id &quot; + note.getId() + &quot; not updated&quot;);</span>
+        }
+
+<span class="fc" id="L89">        return updatedNote;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * &lt;br&gt;After deleting, the method try to get the note by her old id. If the id exist again in database,
+     * a custom exception is throwing
+     */
+    @Override
+    public void deleteNote(String noteId) {
+<span class="fc" id="L100">        logger.debug(&quot;Delete note with id {}&quot;, noteId);</span>
+<span class="fc" id="L101">        noteRepository.deleteById(noteId);</span>
+
+<span class="fc" id="L103">        Optional&lt;Note&gt; deletedNote = noteRepository.findAllById(noteId);</span>
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (deletedNote.isPresent()) {</span>
+<span class="fc" id="L106">            throw new NoteNotDeletedException(&quot;Note with id &quot; + noteId + &quot; not deleted&quot;);</span>
+        }
+<span class="fc" id="L108">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
