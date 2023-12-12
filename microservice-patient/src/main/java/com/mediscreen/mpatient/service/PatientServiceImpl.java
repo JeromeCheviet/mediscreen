@@ -94,7 +94,7 @@ public class PatientServiceImpl implements PatientService {
      * {@inheritDoc}
      *
      * <br>After updating, the method compare the information from the database and from the json object.
-     * If they are different, a custom exception id throwing
+     * If they are different, a custom exception is throwing
      */
     @Override
     public Patient updatePatient(Patient patient) {
