@@ -13,14 +13,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Class to interact with Notes
+ */
 @Service
 public class NoteServiceImpl implements NoteService {
 
-    Logger logger = LoggerFactory.getLogger(NoteService.class);
+    private static final Logger logger = LoggerFactory.getLogger(NoteServiceImpl.class);
 
     @Autowired
     private NoteRepository noteRepository;
 
+    /**
+     * {@inheritDoc}
+     *
+     * <br>If note not exist, a custom exception is throwing
+     */
     @Override
     public Iterable<Note> getNotesByPatId(Integer patId) {
         logger.info("Get all notes for patient id : {}", patId);
@@ -31,6 +39,11 @@ public class NoteServiceImpl implements NoteService {
         return notes;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <br>If note is not found, a custom exception is throwing
+     */
     @Override
     public Note getNoteById(String noteId) {
         logger.debug("Get note with id {}", noteId);
@@ -41,6 +54,11 @@ public class NoteServiceImpl implements NoteService {
         return note.get();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <br>If an error is occured when the note is saving, a custom exception is throwing
+     */
     @Override
     public void addNote(Note note) {
         logger.debug("Add new note with patid: {}", note.getPatId());
@@ -51,6 +69,12 @@ public class NoteServiceImpl implements NoteService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <br>After updating, the method compare the information from the database and from the json object.
+     * If they are different, a custom exception is throwing
+     */
     @Override
     public Note updateNote(Note note) {
         logger.debug("Update note with id {}", note.getId());
@@ -65,6 +89,12 @@ public class NoteServiceImpl implements NoteService {
         return updatedNote;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <br>After deleting, the method try to get the note by her old id. If the id exist again in database,
+     * a custom exception is throwing
+     */
     @Override
     public void deleteNote(String noteId) {
         logger.debug("Delete note with id {}", noteId);

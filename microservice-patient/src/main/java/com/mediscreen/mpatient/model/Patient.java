@@ -7,6 +7,9 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+/**
+ * Class use to connect data of table user into an object
+ */
 @Entity
 @Table(name = "patient")
 @NoArgsConstructor

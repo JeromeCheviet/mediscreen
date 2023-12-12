@@ -15,6 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Class to assess the Diabetes risk
+ */
 @Service
 public class AssessmentServiceImpl implements AssessmentService {
     private static final Logger logger = LoggerFactory.getLogger(AssessmentServiceImpl.class);
@@ -33,24 +36,30 @@ public class AssessmentServiceImpl implements AssessmentService {
             "Anticorps"
     );
 
+    /**
+     * {@inheritDoc}
+     *
+     * With patient information, the method build the full name patient and calculate his age.
+     * With the notes, the number of symptom is calculated and the risk is assessed.
+     */
     @Override
     public Assessment getPatientAssessment(PatientBean patientBean, List<NoteBean> noteBeans) {
-        logger.info("Get assessment for patient {} {}", patientBean.getFamily(), patientBean.getGiven());
+        logger.debug("Get assessment for patient {} {}", patientBean.getFamily(), patientBean.getGiven());
 
         String patientFullName = patientBean.getFamily() + " " + patientBean.getGiven();
         int patientAge = getAge(patientBean.getDob());
 
         int nbSymptoms = countTriggerWord(noteBeans);
-        logger.info("Number of symptoms find : {}", nbSymptoms);
+        logger.debug("Number of symptoms find : {}", nbSymptoms);
 
         Risk risk = defineRisk(patientAge, patientBean.getSex(), nbSymptoms);
-        logger.info("Risk is {}", risk);
+        logger.debug("Risk is {}", risk);
 
         return new Assessment(patientFullName, patientAge, risk);
     }
 
     private int getAge(LocalDate dob) {
-        logger.info("Get age when date of birth is {}", dob);
+        logger.debug("Get age when date of birth is {}", dob);
         return Period.between(dob, currentDate).getYears();
     }
 
@@ -71,7 +80,7 @@ public class AssessmentServiceImpl implements AssessmentService {
     }
 
     private Risk defineRisk(int patientAge, String patientSex, int nbSymptoms) {
-        logger.info("Definition of risk for a {} year old patient ({}) with {} symptom(s)", patientAge, patientSex, nbSymptoms);
+        logger.debug("Definition of risk for a {} year old patient ({}) with {} symptom(s)", patientAge, patientSex, nbSymptoms);
         if (nbSymptoms == 0) {
             return Risk.NONE;
         }

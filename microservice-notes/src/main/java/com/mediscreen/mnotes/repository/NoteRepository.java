@@ -7,10 +7,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Interface to build queries run in document note
+ */
 @Repository
 public interface NoteRepository extends MongoRepository<Note, String> {
 
     Optional<Note> findAllById(String id);
+
     List<Note> findNotesByPatId(Integer patId);
 
 }
